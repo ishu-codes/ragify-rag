@@ -3,8 +3,8 @@ from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, PointStruct, VectorParams
 
-from src.ragify.retrieval.embedder import embeddings
-from src.ragify.utils.config import VECTOR_SIZE, VECTORDB_URL
+from src.core.retrieval.embedder import embeddings
+from src.core.utils.config import VECTOR_SIZE, VECTORDB_URL
 
 
 class VectorStoreManager:

@@ -1,4 +1,4 @@
-from src.ragify.utils.config import (
+from src.core.utils.config import (
     EMBED_MODEL,
     RERANKER_MODEL,
     LLM_MODEL,

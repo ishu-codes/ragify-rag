@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_openai import ChatOpenAI
 
-from src.ragify.utils.config import (
+from src.core.utils.config import (
     LLM_API_KEY,
     LLM_MODEL,
     LLM_STRUCTURED_OUTPUT,

@@ -8,8 +8,8 @@ from grobid_client.grobid_client import GrobidClient
 from langchain_core.documents import Document
 from ollama import ResponseError
 
-from src.ragify.ingestion.chunk_processor import process_section
-from src.ragify.retrieval import vector_store_manager
+from src.core.ingestion.chunk_processor import process_section
+from src.core.retrieval import vector_store_manager
 from src.utils.files import get_file_content
 from src.utils.json import load_json_file, save_to_json
 from src.utils.threads import run_in_threads

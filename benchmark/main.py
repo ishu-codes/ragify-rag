@@ -10,9 +10,9 @@ import requests
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from apps.benchmarking.list import DOCS
-from src.ragify.evaluation import RAGEvaluator, RetrievalEngine
-from src.ragify.ingestion.grobid_ingestion import GrobidIngestor
-from src.ragify.retrieval import embeddings, vector_store_manager
+from src.core.evaluation import RAGEvaluator, RetrievalEngine
+from src.core.ingestion.grobid_ingestion import GrobidIngestor
+from src.core.retrieval import embeddings, vector_store_manager
 from src.utils.json import load_json_file
 from src.utils.threads import run_in_threads
 from src.utils.yaml import load_config
@@ -121,7 +121,7 @@ class Benchmark:
         return result
 
     def _run_with_reranker(self) -> dict[str, Any]:
-        from src.ragify.reranking.reranker import get_reranker
+        from src.core.reranking.reranker import get_reranker
 
         config = load_config("./config/rerank.yaml")
 

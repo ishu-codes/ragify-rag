@@ -24,7 +24,7 @@ class Reranker:
         backend: str = "transformers",
         silent: bool = False,
     ):
-        from src.ragify.utils.config import RERANKER_MODEL
+        from src.core.utils.config import RERANKER_MODEL
 
         self.model_name = model if model is not None else RERANKER_MODEL
         self.backend = backend
@@ -101,7 +101,7 @@ class Reranker:
 
 
 def get_reranker(backend: str | None = None, silent: bool = False):
-    from src.ragify.utils.config import RERANKER_BACKEND
+    from src.core.utils.config import RERANKER_BACKEND
 
     global reranker_instance
     if backend is None:

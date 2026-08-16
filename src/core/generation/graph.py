@@ -9,13 +9,13 @@ from langgraph.graph import END, START
 from langgraph.graph.state import StateGraph
 from tavily import TavilyClient
 
-from src.ragify.classification.model import classification_model
-from src.ragify.generation.llm import llm
-from src.ragify.generation.prompts import prompts
-from src.ragify.generation.schema import Evaluate, RouteIdentifier
-from src.ragify.generation.state import State
-from src.ragify.generation.tools import doc_tool, routing_tool
-from src.ragify.retrieval import get_retriever
+from src.core.classification.model import classification_model
+from src.core.generation.llm import llm
+from src.core.generation.prompts import prompts
+from src.core.generation.schema import Evaluate, RouteIdentifier
+from src.core.generation.state import State
+from src.core.generation.tools import doc_tool, routing_tool
+from src.core.retrieval import get_retriever
 from src.utils.colors import colorize
 
 tavily_client = TavilyClient(api_key=getenv("TAVILY_API_KEY"))
@@ -121,7 +121,7 @@ def general_llm(state: State):
 def retriever_node(state: State):
     messages = state.get("latest_query", "")
     workspace_id = state.get("workspace_id")
-    from src.ragify.generation.agent import get_agent
+    from src.core.generation.agent import get_agent
 
     print(colorize(f"latest_query: {messages}", "CYAN"))
 

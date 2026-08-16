@@ -1,8 +1,8 @@
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from src.ragify.retrieval import vector_store_manager
-from src.ragify.utils.config import MAX_TOKENS, OVERLAP
+from src.core.retrieval import vector_store_manager
+from src.core.utils.config import MAX_TOKENS, OVERLAP
 
 
 class DocumentIngester:

@@ -1,5 +1,5 @@
-from src.ragify.evaluation.evaluator import RAGEvaluator, RetrievalEngine
-from src.ragify.evaluation.metrics import (
+from src.core.evaluation.evaluator import RAGEvaluator, RetrievalEngine
+from src.core.evaluation.metrics import (
     BenchmarkResult,
     EvaluationResult,
     RetrievalResult,

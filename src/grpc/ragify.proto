@@ -90,14 +90,14 @@ message QueryResponse {
   string answer = 1;
 }
 
-// Vector store / collection management (wraps src.ragify.retrieval).
+// Vector store / collection management (wraps src.core.retrieval).
 service VectorStoreService {
   rpc CreateCollection(WorkspaceRequest) returns (Empty);
   rpc DeleteCollection(WorkspaceRequest) returns (Empty);
   rpc InsertDocuments(InsertDocumentsRequest) returns (InsertDocumentsResponse);
 }
 
-// Ingestion services (wraps src.ragify.ingestion).
+// Ingestion services (wraps src.core.ingestion).
 service IngestionService {
   rpc ProcessSection(ProcessSectionRequest) returns (ProcessSectionResponse);
   rpc ConvertToMarkdown(ConvertToMarkdownRequest) returns (ConvertToMarkdownResponse);
@@ -105,7 +105,7 @@ service IngestionService {
   rpc IngestPdf(IngestPdfRequest) returns (IngestPdfResponse);
 }
 
-// RAG query execution (wraps src.ragify.generation graph).
+// RAG query execution (wraps src.core.generation graph).
 service RagService {
   rpc Query(QueryRequest) returns (QueryResponse);
 }

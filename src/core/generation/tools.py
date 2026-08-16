@@ -2,9 +2,9 @@ from typing import Literal
 
 from langchain_core.prompts import PromptTemplate
 
-from src.ragify.generation.llm import llm
-from src.ragify.generation.prompts import prompts
-from src.ragify.generation.schema import Evaluate, RouteIdentifier, VerificationResult
+from src.core.generation.llm import llm
+from src.core.generation.prompts import prompts
+from src.core.generation.schema import Evaluate, RouteIdentifier, VerificationResult
 
 MAX_REFINEMENTS = 1
 

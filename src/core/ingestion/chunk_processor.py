@@ -2,8 +2,8 @@ import numpy as np
 import tiktoken
 from qdrant_client import QdrantClient
 
-from src.ragify.retrieval.embedder import embeddings
-from src.ragify.utils.config import VECTORDB_URL
+from src.core.retrieval.embedder import embeddings
+from src.core.utils.config import VECTORDB_URL
 
 SIM_THRESHOLD = 0.75
 MAX_CHUNK_TOKENS = 4096

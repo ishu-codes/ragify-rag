@@ -3,8 +3,8 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.messages.ai import AIMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
-from src.ragify.generation.llm import llm
-from src.ragify.generation.prompts import prompts
+from src.core.generation.llm import llm
+from src.core.generation.prompts import prompts
 
 
 class Agent:
@@ -17,7 +17,7 @@ class Agent:
         return agent
 
 def get_agent(workspace_id: str | None = None):
-    from src.ragify.retrieval import get_retriever
+    from src.core.retrieval import get_retriever
 
     tools = [get_retriever(workspace_id)]
     return Agent(tools=tools).create()

@@ -26,7 +26,7 @@ if _version_not_supported:
 
 
 class VectorStoreServiceStub:
-    """Vector store / collection management (wraps src.ragify.retrieval).
+    """Vector store / collection management (wraps src.core.retrieval).
     """
 
     def __init__(self, channel):
@@ -53,7 +53,7 @@ class VectorStoreServiceStub:
 
 
 class VectorStoreServiceServicer:
-    """Vector store / collection management (wraps src.ragify.retrieval).
+    """Vector store / collection management (wraps src.core.retrieval).
     """
 
     def CreateCollection(self, request, context):
@@ -101,7 +101,7 @@ def add_VectorStoreServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class VectorStoreService:
-    """Vector store / collection management (wraps src.ragify.retrieval).
+    """Vector store / collection management (wraps src.core.retrieval).
     """
 
     @staticmethod
@@ -187,7 +187,7 @@ class VectorStoreService:
 
 
 class IngestionServiceStub:
-    """Ingestion services (wraps src.ragify.ingestion).
+    """Ingestion services (wraps src.core.ingestion).
     """
 
     def __init__(self, channel):
@@ -219,7 +219,7 @@ class IngestionServiceStub:
 
 
 class IngestionServiceServicer:
-    """Ingestion services (wraps src.ragify.ingestion).
+    """Ingestion services (wraps src.core.ingestion).
     """
 
     def ProcessSection(self, request, context):
@@ -278,7 +278,7 @@ def add_IngestionServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class IngestionService:
-    """Ingestion services (wraps src.ragify.ingestion).
+    """Ingestion services (wraps src.core.ingestion).
     """
 
     @staticmethod
@@ -391,7 +391,7 @@ class IngestionService:
 
 
 class RagServiceStub:
-    """RAG query execution (wraps src.ragify.generation graph).
+    """RAG query execution (wraps src.core.generation graph).
     """
 
     def __init__(self, channel):
@@ -408,7 +408,7 @@ class RagServiceStub:
 
 
 class RagServiceServicer:
-    """RAG query execution (wraps src.ragify.generation graph).
+    """RAG query execution (wraps src.core.generation graph).
     """
 
     def Query(self, request, context):
@@ -434,7 +434,7 @@ def add_RagServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class RagService:
-    """RAG query execution (wraps src.ragify.generation graph).
+    """RAG query execution (wraps src.core.generation graph).
     """
 
     @staticmethod

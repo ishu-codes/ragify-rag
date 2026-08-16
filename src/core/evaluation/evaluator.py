@@ -2,7 +2,7 @@ import time
 from dataclasses import field
 from typing import Any, Callable
 
-from src.ragify.evaluation.metrics import (
+from src.core.evaluation.metrics import (
     BenchmarkResult,
     EvaluationResult,
     RetrievalResult,

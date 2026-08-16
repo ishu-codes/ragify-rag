@@ -4,8 +4,8 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-PROTO_DIR="$ROOT/src/ragify/grpc"
-CLIENT_DIR="$ROOT/apps/api/src/ragify_client/protos"
+PROTO_DIR="$ROOT/src/grpc"
+CLIENT_DIR="$ROOT/../api-python/src/ragify_client/protos"
 
 mkdir -p "$CLIENT_DIR"
 

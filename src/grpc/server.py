@@ -2,7 +2,7 @@
 
 Run with:
 
-    python -m src.ragify.grpc
+    python -m src.grpc
 
 or the ``ragify-server`` console script. The port/host can be configured with
 ``RAGIFY_GRPC_HOST`` and ``RAGIFY_GRPC_PORT``.
@@ -16,10 +16,10 @@ from pathlib import Path
 import grpc
 from langchain_core.documents import Document
 
-from src.ragify.ingestion.chunk_processor import process_section
-from src.ragify.ingestion.grobid_ingestion import GrobidIngestor
-from src.ragify.ingestion.transcoder import transcoder
-from src.ragify.retrieval import vector_store_manager
+from src.core.ingestion.chunk_processor import process_section
+from src.core.ingestion.grobid_ingestion import GrobidIngestor
+from src.core.ingestion.transcoder import transcoder
+from src.core.retrieval import vector_store_manager
 
 from . import ragify_pb2, ragify_pb2_grpc
 
@@ -41,7 +41,7 @@ def _convert_bytes_to_markdown(filename: str, content: bytes) -> str:
 
 
 class VectorStoreService(ragify_pb2_grpc.VectorStoreServiceServicer):
-    """Wraps src.ragify.retrieval.vector_store_manager."""
+    """Wraps src.core.retrieval.vector_store_manager."""
 
     def CreateCollection(self, request, context):
         vector_store_manager.create_collection(str(request.workspace_id))
@@ -61,7 +61,7 @@ class VectorStoreService(ragify_pb2_grpc.VectorStoreServiceServicer):
 
 
 class IngestionService(ragify_pb2_grpc.IngestionServiceServicer):
-    """Wraps src.ragify.ingestion chunking / conversion / indexing."""
+    """Wraps src.core.ingestion chunking / conversion / indexing."""
 
     def ProcessSection(self, request, context):
         chunks = process_section(list(request.paragraphs))
@@ -123,7 +123,7 @@ class IngestionService(ragify_pb2_grpc.IngestionServiceServicer):
 
 
 class RagService(ragify_pb2_grpc.RagServiceServicer):
-    """Wraps the src.ragify.generation graph (retrieval + evaluation + generation)."""
+    """Wraps the src.core.generation graph (retrieval + evaluation + generation)."""
 
     _ROLE_MESSAGE_TYPES = {
         "user": "human",
@@ -136,7 +136,7 @@ class RagService(ragify_pb2_grpc.RagServiceServicer):
     def Query(self, request, context):
         from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
-        from src.ragify.generation import builder
+        from src.core.generation import builder
 
         message_types = {
             "human": HumanMessage,

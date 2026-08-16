@@ -3,8 +3,8 @@ from typing import Optional
 from langchain_core.documents import Document
 from langchain_core.tools import create_retriever_tool, tool
 
-# from src.ragify.retrieval.embedder import embeddings
-from src.ragify.retrieval.vector_store import vector_store_manager
+# from src.core.retrieval.embedder import embeddings
+from src.core.retrieval.vector_store import vector_store_manager
 
 
 class RetrieverTool:

@@ -3,7 +3,7 @@ from typing import Sequence
 from langchain_ollama import OllamaEmbeddings
 from ollama import embed as ollama_embed
 
-from src.ragify.utils.config import EMBED_MODEL
+from src.core.utils.config import EMBED_MODEL
 
 
 class Embedder:

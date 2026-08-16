@@ -4,12 +4,12 @@ from langchain_core.prompts import PromptTemplate
 from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
 
-from src.ragify.utils.config import (
+from src.core.utils.config import (
     CLASSIFICATION_API_KEY,
     CLASSIFICATION_MODEL,
     CLASSIFICATION_URL,
 )
-from src.ragify.generation.schema import RouteIdentifier
+from src.core.generation.schema import RouteIdentifier
 
 
 class ClassificationModel:
