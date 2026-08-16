@@ -1,0 +1,44 @@
+
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.ruff_cache/
+*.log
+
+# Virtual environments
+.venv
+
+# Environment files
+*.env
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.zed
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Agents / AI tools
+.agents
+skills-lock.json
+.claude
+.gemini
+.workspace
+.commandcode
+.kiro
+.kilo
+
+# Other unnecessary files
+others/

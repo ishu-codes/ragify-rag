@@ -1,0 +1,27 @@
+[project]
+name = "ragify-rag"
+version = "0.1.0"
+description = "Adaptive RAG system"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "grobid2json",
+    "grpcio>=1.80.0",
+    "grpcio-tools>=1.80.0",
+    "protobuf>=5.0.0",
+    "langchain>=1.2.13",
+    "langchain-openai>=1.1.12",
+    "langchain-qdrant>=1.1.0",
+    "langchain-tavily>=0.2.17",
+    "langgraph>=1.1.3",
+    "markitdown[pdf]>=0.1.5",
+    "pydotenv>=0.0.7",
+    "qdrant-client>=1.17.1",
+    "torch>=2.11.0",
+    "transformers>=5.5.4",
+]
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+ragify-server = "ragify.grpc.server:serve"

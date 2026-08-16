@@ -1,0 +1,7 @@
+embedding_model: bge-small
+top_k: 5
+reranker: null
+llm: openai
+use_llm_judge: false
+experiment_name: baseline
+save_results: true

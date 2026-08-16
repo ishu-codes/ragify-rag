@@ -1,0 +1,10 @@
+# Documents
+data/papers
+data/logs
+data/docs
+
+# Unnecessary files
+first_doc.md
+result.md
+tei_to_md.py
+test*.py

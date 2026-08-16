@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package ragify.v1;
+
+// Shared contract between the ragify-rag gRPC server (src/ragify/grpc) and
+// the backend's ragify_client library (apps/api/src/ragify_client).
+
+message Empty {}
+
+message WorkspaceRequest {
+  int64 workspace_id = 1;
+}
+
+message Document {
+  string text = 1;
+  map<string, string> metadata = 2;
+}
+
+message InsertDocumentsRequest {
+  int64 workspace_id = 1;
+  repeated Document documents = 2;
+}
+
+message InsertDocumentsResponse {
+  int32 inserted = 1;
+}
+
+message ProcessSectionRequest {
+  repeated string paragraphs = 1;
+}
+
+message ProcessSectionResponse {
+  repeated string chunks = 1;
+}
+
+message ConvertToMarkdownRequest {
+  string filename = 1;
+  bytes content = 2;
+}
+
+message ConvertToMarkdownResponse {
+  string markdown = 1;
+}
+
+message ProcessDocumentRequest {
+  int64 workspace_id = 1;
+  string filename = 2;
+  string kind = 3;
+  bytes content = 4;
+  string chunk_type = 5;
+}
+
+message ProcessDocumentResponse {
+  int32 chunks = 1;
+}
+
+message PdfFile {
+  string name = 1;
+  bytes content = 2;
+}
+
+message PdfResult {
+  string name = 1;
+  bool ok = 2;
+  string error = 3;
+}
+
+message IngestPdfRequest {
+  int64 workspace_id = 1;
+  repeated PdfFile files = 2;
+}
+
+message IngestPdfResponse {
+  int32 processed = 1;
+  int32 failed = 2;
+  repeated PdfResult results = 3;
+}
+
+message ChatMessage {
+  string role = 1; // "user" | "assistant" | "system"
+  string content = 2;
+}
+
+message QueryRequest {
+  int64 workspace_id = 1;
+  repeated ChatMessage messages = 2;
+}
+
+message QueryResponse {
+  string answer = 1;
+}
+
+// Vector store / collection management (wraps src.ragify.retrieval).
+service VectorStoreService {
+  rpc CreateCollection(WorkspaceRequest) returns (Empty);
+  rpc DeleteCollection(WorkspaceRequest) returns (Empty);
+  rpc InsertDocuments(InsertDocumentsRequest) returns (InsertDocumentsResponse);
+}
+
+// Ingestion services (wraps src.ragify.ingestion).
+service IngestionService {
+  rpc ProcessSection(ProcessSectionRequest) returns (ProcessSectionResponse);
+  rpc ConvertToMarkdown(ConvertToMarkdownRequest) returns (ConvertToMarkdownResponse);
+  rpc ProcessDocument(ProcessDocumentRequest) returns (ProcessDocumentResponse);
+  rpc IngestPdf(IngestPdfRequest) returns (IngestPdfResponse);
+}
+
+// RAG query execution (wraps src.ragify.generation graph).
+service RagService {
+  rpc Query(QueryRequest) returns (QueryResponse);
+}

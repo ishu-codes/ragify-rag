@@ -1,0 +1,272 @@
+[
+  {
+    "id": "q1",
+    "query": "What are the key methods for reranking, retrieval?",
+    "relevant_docs": ["2604.11043v1"],
+    "expected_points": ["reranking", "retrieval", "retriever"]
+  },
+  {
+    "id": "q2",
+    "query": "What are the key methods for safety, ai safety?",
+    "relevant_docs": ["2604.11065v1"],
+    "expected_points": ["safety", "ai safety"]
+  },
+  {
+    "id": "q3",
+    "query": "What are the key methods for safety, ai safety?",
+    "relevant_docs": ["2604.11070v1"],
+    "expected_points": ["safety", "ai safety"]
+  },
+  {
+    "id": "q4",
+    "query": "What are the key methods for llm, language model?",
+    "relevant_docs": ["2604.11072v1"],
+    "expected_points": ["llm", "language model", "agent"]
+  },
+  {
+    "id": "q6",
+    "query": "What are the key methods for agent, agents?",
+    "relevant_docs": ["2604.11088v1"],
+    "expected_points": ["agent", "agents"]
+  },
+  {
+    "id": "q8",
+    "query": "What are the key methods for llm, language model?",
+    "relevant_docs": ["2604.11120v1"],
+    "expected_points": ["llm", "language model", "safety"]
+  },
+  {
+    "id": "q11",
+    "query": "What are the key methods for llm, language model?",
+    "relevant_docs": ["2604.11137v1"],
+    "expected_points": ["llm", "language model", "safety"]
+  },
+  {
+    "id": "q12",
+    "query": "What are the key methods for llm, language model?",
+    "relevant_docs": ["2604.11154v1"],
+    "expected_points": ["llm", "language model"]
+  },
+  {
+    "id": "q14",
+    "query": "What are the key methods for llm, language model?",
+    "relevant_docs": ["2604.11259v1"],
+    "expected_points": ["llm", "language model", "agent"]
+  },
+  {
+    "id": "q16",
+    "query": "What are the key methods for llm, language model?",
+    "relevant_docs": ["2604.11287v1"],
+    "expected_points": ["llm", "language model", "safety"]
+  },
+  {
+    "id": "q17",
+    "query": "What are the key methods for chatbot, information probing?",
+    "relevant_docs": ["2604.11077v1"],
+    "expected_points": ["chatbot", "information probing", "proactive"]
+  },
+  {
+    "id": "q18",
+    "query": "What are the key methods for knowledge graph, local llm?",
+    "relevant_docs": ["2604.11104v1"],
+    "expected_points": ["knowledge graph", "local llm", "zero-shot"]
+  },
+  {
+    "id": "q19",
+    "query": "What are the key methods for healthcare, data policy?",
+    "relevant_docs": ["2604.11125v1"],
+    "expected_points": ["healthcare", "data policy", "data sharing"]
+  },
+  {
+    "id": "q20",
+    "query": "What are the key methods for quantum, reinforcement learning?",
+    "relevant_docs": ["2604.11131v1"],
+    "expected_points": ["quantum", "reinforcement learning", "multi-agent"]
+  },
+  {
+    "id": "q21",
+    "query": "What are the key methods for ai values, authority stack?",
+    "relevant_docs": ["2604.11216v1"],
+    "expected_points": ["ai values", "authority stack", "decision-making"]
+  },
+  {
+    "id": "q22",
+    "query": "What are the key methods for benchmark, agentic research?",
+    "relevant_docs": ["2604.11307v1"],
+    "expected_points": ["benchmark", "agentic research", "multi-modal"]
+  },
+  {
+    "id": "q23",
+    "query": "What are the key methods for prompt, evaluation scheduling?",
+    "relevant_docs": ["2604.11328v1"],
+    "expected_points": ["prompt", "evaluation scheduling", "submodular"]
+  },
+  {
+    "id": "q24",
+    "query": "What are the key methods for depression detection, multimodal?",
+    "relevant_docs": ["2604.11334v1"],
+    "expected_points": ["depression detection", "multimodal", "summary generation"]
+  },
+  {
+    "id": "q25",
+    "query": "What are the key methods for ecg, representation learning?",
+    "relevant_docs": ["2604.11359v1"],
+    "expected_points": ["ecg", "representation learning", "contrastive"]
+  },
+  {
+    "id": "q26",
+    "query": "What are the key methods for cognitive architecture, knowledge layer?",
+    "relevant_docs": ["2604.11364v1"],
+    "expected_points": ["cognitive architecture", "knowledge layer", "memory"]
+  },
+  {
+    "id": "q27",
+    "query": "What are the key methods for reasoning, search trajectories?",
+    "relevant_docs": ["2604.11365v1"],
+    "expected_points": ["reasoning", "search trajectories", "contrasts"]
+  },
+  {
+    "id": "q28",
+    "query": "What are the key methods for agent loops, graph execution?",
+    "relevant_docs": ["2604.11378v1"],
+    "expected_points": ["agent loops", "graph execution", "scheduler"]
+  },
+  {
+    "id": "q29",
+    "query": "What are the key methods for cyber threat, graph-based rag?",
+    "relevant_docs": ["2604.11419v1"],
+    "expected_points": ["cyber threat", "graph-based rag", "retrieval"]
+  },
+  {
+    "id": "q30",
+    "query": "What are the key methods for role orchestration, small models?",
+    "relevant_docs": ["2604.11465v1"],
+    "expected_points": ["role orchestration", "small models", "inference"]
+  },
+  {
+    "id": "q31",
+    "query": "What are the key methods for market alignment, reinforcement learning?",
+    "relevant_docs": ["2604.11477v1"],
+    "expected_points": ["market alignment", "reinforcement learning", "multi-agent"]
+  },
+  {
+    "id": "q32",
+    "query": "What are the key methods for argumentation semantics?",
+    "relevant_docs": ["2604.11480v1"],
+    "expected_points": ["argumentation", "semantics", "complexity"]
+  },
+  {
+    "id": "q33",
+    "query": "What are the key methods for multimodal, vision-language model?",
+    "relevant_docs": ["2604.11490v1"],
+    "expected_points": ["multimodal", "vision-language model", "adaptation"]
+  },
+  {
+    "id": "q34",
+    "query": "What are the key methods for ai, mathematics?",
+    "relevant_docs": ["2604.11504v1"],
+    "expected_points": ["ai", "mathematics", "theorem proving"]
+  },
+  {
+    "id": "q35",
+    "query": "What are the key methods for multi-agent, privacy?",
+    "relevant_docs": ["2604.11523v1"],
+    "expected_points": ["multi-agent", "privacy", "collaboration"]
+  },
+  {
+    "id": "q36",
+    "query": "What are the key methods for surrogates, optimization?",
+    "relevant_docs": ["2604.11524v1"],
+    "expected_points": ["surrogates", "optimization", "linkage discovery"]
+  },
+  {
+    "id": "q37",
+    "query": "What are the key methods for np-hard problems, problem reductions?",
+    "relevant_docs": ["2604.11535v1"],
+    "expected_points": ["np-hard", "problem reductions", "agentic integration"]
+  },
+  {
+    "id": "q38",
+    "query": "What are the key methods for personal ai, agent harness?",
+    "relevant_docs": ["2604.11548v1"],
+    "expected_points": ["personal ai", "agent harness", "tool-use"]
+  },
+  {
+    "id": "q39",
+    "query": "What are the key methods for tool-use, llm agents?",
+    "relevant_docs": ["2604.11557v1"],
+    "expected_points": ["tool-use", "llm agents", "evaluation"]
+  },
+  {
+    "id": "q40",
+    "query": "What are the key methods for sycophancy, user demographics?",
+    "relevant_docs": ["2604.11609v1"],
+    "expected_points": ["sycophancy", "user demographics", "llm behavior"]
+  },
+  {
+    "id": "q41",
+    "query": "What are the key methods for knowledge orchestration, enterprise?",
+    "relevant_docs": ["2604.11623v1"],
+    "expected_points": ["knowledge orchestration", "enterprise", "context kubernetes"]
+  },
+  {
+    "id": "q42",
+    "query": "What are the key methods for visual generation, reasoning rewards?",
+    "relevant_docs": ["2604.11626v1"],
+    "expected_points": ["visual generation", "reasoning rewards", "image generation"]
+  },
+  {
+    "id": "q43",
+    "query": "What are the key methods for harmful content, causal analysis?",
+    "relevant_docs": ["2604.11663v1"],
+    "expected_points": ["harmful content", "causal analysis", "llm safety"]
+  },
+  {
+    "id": "q44",
+    "query": "What are the key methods for knowledge graph, conversation?",
+    "relevant_docs": ["2604.11703v1"],
+    "expected_points": ["knowledge graph", "conversation", "homelessness"]
+  },
+  {
+    "id": "q45",
+    "query": "What are the key methods for agentic ai, cyber-physical systems?",
+    "relevant_docs": ["2604.11705v1"],
+    "expected_points": ["agentic ai", "cyber-physical systems", "determinism"]
+  },
+  {
+    "id": "q46",
+    "query": "What are the key methods for blast damage, deep learning?",
+    "relevant_docs": ["2604.11709v1"],
+    "expected_points": ["blast damage", "deep learning", "mamba"]
+  },
+  {
+    "id": "q47",
+    "query": "What are the key methods for software agent, reasoning context?",
+    "relevant_docs": ["2604.11716v1"],
+    "expected_points": ["software agent", "reasoning context", "swe-agile"]
+  },
+  {
+    "id": "q48",
+    "query": "What are the key methods for multi-agent, murder mystery?",
+    "relevant_docs": ["2604.11741v1"],
+    "expected_points": ["multi-agent", "murder mystery", "vision-language"]
+  },
+  {
+    "id": "q49",
+    "query": "What are the key methods for organizational ai, epistemic?",
+    "relevant_docs": ["2604.11759v1"],
+    "expected_points": ["organizational ai", "epistemic", "knowledge"]
+  },
+  {
+    "id": "q50",
+    "query": "What are the key methods for soccer tactics, generative modeling?",
+    "relevant_docs": ["2604.11786v1"],
+    "expected_points": ["soccer tactics", "generative modeling", "forecasting"]
+  },
+  {
+    "id": "q51",
+    "query": "What are the key methods for safety violations, agent traces?",
+    "relevant_docs": ["2604.11806v1"],
+    "expected_points": ["safety violations", "agent traces", "detection"]
+  }
+]
