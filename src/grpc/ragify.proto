@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package ragify.v1;
 
+option java_multiple_files = true;
+
 // Shared contract between the ragify-rag gRPC server (src/ragify/grpc) and
 // the backend's ragify_client library (apps/api/src/ragify_client).
 

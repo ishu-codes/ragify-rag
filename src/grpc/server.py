@@ -26,6 +26,9 @@ from . import ragify_pb2, ragify_pb2_grpc
 RAGIFY_GRPC_HOST = getenv("RAGIFY_GRPC_HOST", "0.0.0.0")
 RAGIFY_GRPC_PORT = int(getenv("RAGIFY_GRPC_PORT", "50051"))
 RAGIFY_GRPC_MAX_WORKERS = int(getenv("RAGIFY_GRPC_MAX_WORKERS", "10"))
+RAGIFY_GRPC_MAX_MESSAGE_LENGTH = int(
+    getenv("RAGIFY_GRPC_MAX_MESSAGE_LENGTH", str(500 * 1024 * 1024))
+)
 
 _MARKDOWN_KINDS = {"md", "markdown", "txt", "text"}
 
@@ -160,7 +163,11 @@ class RagService(ragify_pb2_grpc.RagServiceServicer):
 
 def build_server() -> grpc.Server:
     server = grpc.server(
-        futures.ThreadPoolExecutor(max_workers=RAGIFY_GRPC_MAX_WORKERS)
+        futures.ThreadPoolExecutor(max_workers=RAGIFY_GRPC_MAX_WORKERS),
+        options=[
+            ("grpc.max_send_message_length", RAGIFY_GRPC_MAX_MESSAGE_LENGTH),
+            ("grpc.max_receive_message_length", RAGIFY_GRPC_MAX_MESSAGE_LENGTH),
+        ],
     )
     ragify_pb2_grpc.add_VectorStoreServiceServicer_to_server(
         VectorStoreService(), server
