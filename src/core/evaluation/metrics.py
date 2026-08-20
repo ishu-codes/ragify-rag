@@ -1,3 +1,4 @@
+import math
 from dataclasses import dataclass
 from typing import Any
 
@@ -22,6 +23,9 @@ class EvaluationResult:
     rerank_latency_ms: float | None = None
     retrieved_docs: list[str] = None
     answer: str | None = None
+    mrr: float = 0.0
+    ndcg_at_k: float = 0.0
+    faithful: bool | None = None
 
 
 @dataclass
@@ -36,6 +40,9 @@ class BenchmarkResult:
     avg_rerank_latency_ms: float | None = None
     total_queries: int = 0
     results: list["EvaluationResult"] = None
+    mrr_at_k: float = 0.0
+    ndcg_at_k: float = 0.0
+    faithfulness_rate: float | None = None
 
 
 def compute_recall_at_k(retrieved: list[str], relevant: list[str], k: int) -> float:
@@ -56,13 +63,17 @@ def compute_mrr(retrieved: list[str], relevant: list[str]) -> float:
 def compute_ndcg_at_k(retrieved: list[str], relevant: list[str], k: int) -> float:
     if not relevant:
         return 0.0
+    relevant_set = set(relevant)
+    # Binary relevance per *document*: repeated chunks of the same document
+    # only count once, and gain is discounted by rank (standard NDCG@k).
+    seen: set[str] = set()
     dcg = 0.0
     for i, doc in enumerate(retrieved[:k], 1):
-        if doc in relevant:
-            dcg += 1.0 / (i if i <= 10 else 10)
-    idcg = sum(
-        1.0 / (i if i <= 10 else 10) for i in range(1, min(len(relevant), k) + 1)
-    )
+        if doc in relevant_set and doc not in seen:
+            dcg += 1.0 / math.log2(i + 1)
+            seen.add(doc)
+    ideal = min(len(relevant_set), k)
+    idcg = sum(1.0 / math.log2(i + 1) for i in range(1, ideal + 1))
     return dcg / idcg if idcg > 0 else 0.0
 
 

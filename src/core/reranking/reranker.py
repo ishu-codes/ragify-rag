@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 
 _dummy_stderr = io.StringIO()
 reranker_instance = None
+reranker_instance_key = None
 
 
 class Reranker:
@@ -100,17 +101,26 @@ class Reranker:
             return list(docs)[:top_k]
 
 
-def get_reranker(backend: str | None = None, silent: bool = False):
-    from src.core.utils.config import RERANKER_BACKEND
+def get_reranker(
+    backend: str | None = None,
+    silent: bool = False,
+    model: str | None = None,
+):
+    from src.core.utils.config import RERANKER_BACKEND, RERANKER_MODEL
 
-    global reranker_instance
+    global reranker_instance, reranker_instance_key
     if backend is None:
         backend = RERANKER_BACKEND
+    if model is None:
+        model = RERANKER_MODEL
 
-    if reranker_instance is None or reranker_instance.backend != backend:
-        reranker_instance = Reranker(backend=backend, silent=silent)
+    key = (backend, model)
+    if reranker_instance is None or reranker_instance_key != key:
+        reranker_instance = Reranker(model=model, backend=backend, silent=silent)
+        reranker_instance_key = key
 
     return reranker_instance
 
 
-reranker = get_reranker(silent=True)
+# Lazy: only load the model when the benchmark / server actually requests it.
+reranker = None

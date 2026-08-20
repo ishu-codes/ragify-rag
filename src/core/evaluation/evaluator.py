@@ -70,7 +70,26 @@ class RAGEvaluator:
         self.llm_judge = llm_judge
 
     def _extract_doc_ids(self, chunks: list[Any]) -> list[str]:
-        return [getattr(c, "metadata", {}).get("source", "unknown") for c in chunks]
+        """Map retrieved chunks back to their source document id.
+
+        Different ingestion paths store the source under different metadata
+        keys (source / paper_id / doc_id / ...), so look them all up.
+        """
+        id_keys = (
+            "source",
+            "paper_id",
+            "doc_id",
+            "document_id",
+            "file_name",
+            "filename",
+            "file",
+        )
+        ids: list[str] = []
+        for chunk in chunks:
+            metadata = getattr(chunk, "metadata", {}) or {}
+            doc_id = next((metadata[k] for k in id_keys if metadata.get(k)), None)
+            ids.append(str(doc_id) if doc_id is not None else "unknown")
+        return ids
 
     def _extract_chunk_texts(self, chunks: list[Any]) -> list[str]:
         return [getattr(c, "page_content", str(c)) for c in chunks]
@@ -92,24 +111,34 @@ class RAGEvaluator:
 
         doc_recall = compute_recall_at_k(retrieved_doc_ids, relevant_docs, k)
         chunk_relevance = compute_chunk_relevance(retrieved_texts, expected_points)
+        mrr = compute_mrr(retrieved_doc_ids, relevant_docs)
+        ndcg = compute_ndcg_at_k(retrieved_doc_ids, relevant_docs, k)
+        context = "\n\n".join(retrieved_texts)
 
         generation_score = None
         answer = None
+        faithful = None
 
         if self.llm_generate:
-            context = "\n\n".join(retrieved_texts)
             try:
                 if callable(self.llm_generate):
-                    response = self.llm_generate(context)
+                    response = self.llm_generate(query, context)
                 else:
                     llm_client = getattr(self.llm_generate, "client", self.llm_generate)
-                    response = llm_client.invoke(context)
+                    response = llm_client.invoke(query, context)
                 answer = (
                     response.content if hasattr(response, "content") else str(response)
                 )
                 generation_score = compute_answer_fidelity(answer, context)
             except Exception:
                 pass
+
+        if self.llm_judge and answer:
+            try:
+                verdict = self.llm_judge(query, context, answer)
+                faithful = bool(verdict) if verdict is not None else None
+            except Exception:
+                faithful = None
 
         return EvaluationResult(
             query_id="",
@@ -123,6 +152,9 @@ class RAGEvaluator:
             rerank_latency_ms=rerank_latency_ms,
             retrieved_docs=retrieved_doc_ids,
             answer=answer,
+            mrr=mrr,
+            ndcg_at_k=ndcg,
+            faithful=faithful,
         )
 
     def run_benchmark(
@@ -139,6 +171,9 @@ class RAGEvaluator:
         latencies = []
         retrieval_latencies = []
         rerank_latencies = []
+        mrrs = []
+        ndcgs = []
+        faithfuls = []
 
         for q in queries:
             result = self.evaluate_query(
@@ -158,6 +193,11 @@ class RAGEvaluator:
                 retrieval_latencies.append(result.retrieval_latency_ms)
             if result.rerank_latency_ms is not None:
                 rerank_latencies.append(result.rerank_latency_ms)
+
+            mrrs.append(result.mrr)
+            ndcgs.append(result.ndcg_at_k)
+            if result.faithful is not None:
+                faithfuls.append(result.faithful)
 
             if result.generation_score is not None:
                 generation_scores.append(result.generation_score)
@@ -185,4 +225,7 @@ class RAGEvaluator:
             else None,
             total_queries=len(queries),
             results=results,
+            mrr_at_k=statistics.mean(mrrs) if mrrs else 0.0,
+            ndcg_at_k=statistics.mean(ndcgs) if ndcgs else 0.0,
+            faithfulness_rate=statistics.mean(faithfuls) if faithfuls else None,
         )
