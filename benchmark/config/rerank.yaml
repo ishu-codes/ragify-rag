@@ -2,8 +2,9 @@ embedding_model: bge-small
 top_k: 5
 initial_k: 25
 reranker: BAAI/bge-reranker-v2-m3
-reranker_backend: ollama
+reranker_backend: transformers
 llm: openai
+use_llm_generate: true
 use_llm_judge: true
 experiment_name: rerank
 save_results: true

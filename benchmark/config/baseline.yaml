@@ -2,6 +2,7 @@ embedding_model: bge-small
 top_k: 5
 reranker: null
 llm: openai
-use_llm_judge: false
+use_llm_generate: true
+use_llm_judge: true
 experiment_name: baseline
 save_results: true

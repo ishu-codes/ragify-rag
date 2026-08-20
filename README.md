@@ -93,6 +93,46 @@ sequenceDiagram
     RAG-->>API: answer
 ```
 
+## Benchmark
+
+`rag/benchmark/` evaluates retrieval and generation quality on a 45-query
+ground-truth set over ~50 arXiv papers. Run it from `rag/benchmark` (requires
+Qdrant with the `benchmark` collection populated, Ollama for embeddings, and the
+configured LLM for generation + faithfulness judging):
+
+```bash
+cd rag/benchmark
+../.venv/bin/python main.py
+```
+
+Results are persisted to `rag/benchmark/results/` (per-experiment JSON,
+`latest.json`, `SUMMARY.md`).
+
+Latest results (top_k=5, 45 queries, embeddings: `qllama/bge-small-en-v1.5`,
+generation/judge: configured production LLM):
+
+| Metric | Baseline | With reranker (bge-reranker-v2-m3) | Delta |
+| --- | ---: | ---: | ---: |
+| Doc Recall@5 | 0.8667 | 0.7778 | -0.0889 |
+| MRR@5 | 0.7878 | 0.7667 | -0.0211 |
+| NDCG@5 | 0.8069 | 0.7696 | -0.0373 |
+| Chunk Relevance@5 | 0.8711 | 0.9333 | +0.0622 |
+| Answer Fidelity | 0.6476 | 0.6713 | +0.0237 |
+| Faithfulness (LLM judge) | 1.0000 | 0.9778 | -0.0222 |
+| Avg Retrieval (ms) | 99.3 | 112.1 | +12.8 |
+| Avg Rerank (ms) | - | 47152.1 | - |
+| Avg Latency (ms) | 99.3 | 47264.1 | +47164.9 |
+| p95 Latency (ms) | 140.0 | 67207.0 | +67067.0 |
+
+Notes:
+
+- The cross-encoder reranker improves chunk-level relevance (+6.2pp) and answer
+  fidelity (+2.4pp), but lowers doc-level recall (-8.9pp) and costs ~47 s/query
+  with the local transformers backend — not production-viable in this
+  configuration. Retrieval-only answers run at ~99 ms avg / 140 ms p95.
+- Faithfulness is LLM-judged with the `verify_prompt`; answers are generated
+  strictly from retrieved context.
+
 ## Configuration
 
 Key variables (see repo root `.env.example`): `VECTORDB_URL`, `EMBED_MODEL`, `VECTOR_SIZE`, `MAX_TOKENS`, `OVERLAP`, `LLM_URL`, `LLM_MODEL`, `LLM_API_KEY`, `LLM_STRUCTURED_OUTPUT`, `CLASSIFICATION_URL`, `CLASSIFICATION_MODEL`, `CLASSIFICATION_API_KEY`, `TAVILY_API_KEY`, `RAGIFY_GRPC_HOST`, `RAGIFY_GRPC_PORT`, `RAGIFY_GRPC_MAX_WORKERS`.

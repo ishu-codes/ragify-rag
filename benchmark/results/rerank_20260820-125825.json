@@ -1,0 +1,875 @@
+{
+  "experiment_name": "rerank",
+  "doc_recall_at_k": 0.7777777777777778,
+  "chunk_relevance_at_k": 0.9333333333333333,
+  "mrr_at_k": 0.7666666666666667,
+  "ndcg_at_k": 0.7695762167460324,
+  "generation_score": 0.6713122281081514,
+  "faithfulness_rate": 0.9777777777777777,
+  "avg_latency_ms": 47264.14657446658,
+  "p95_latency_ms": 67207.0220580008,
+  "avg_retrieval_latency_ms": 112.08476413319457,
+  "avg_rerank_latency_ms": 47152.05557882226,
+  "total_queries": 45,
+  "results": [
+    {
+      "query_id": "q1",
+      "query": "What are the key methods for reranking, retrieval?",
+      "doc_recall": 0.0,
+      "chunk_relevance": 1.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "generation_score": 0.47058823529411764,
+      "faithful": true,
+      "latency_ms": 33925.97851999926,
+      "retrieved_docs": [
+        "2604.11419v1",
+        "2604.11548v1",
+        "2604.11419v1",
+        "2604.11419v1",
+        "2604.11419v1"
+      ],
+      "answer": "The context does not contain enough information about key methods for reranking. It only mentions that reranking is one variant explored in RAG systems. For retrieval, it describes sparse retrieval (e.g., BM25), dense retrieval, and hybrid approaches."
+    },
+    {
+      "query_id": "q2",
+      "query": "What are the key methods for safety, ai safety?",
+      "doc_recall": 0.0,
+      "chunk_relevance": 1.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "generation_score": 0.45454545454545453,
+      "faithful": true,
+      "latency_ms": 52747.13879299998,
+      "retrieved_docs": [
+        "2604.11070v1",
+        "2604.11806v1",
+        "2604.11070v1",
+        "2604.11806v1",
+        "2604.11070v1"
+      ],
+      "answer": "Key methods from the context include:\n\n- **Red-teaming**\n- **Constitutional AI**\n- **Content policy enforcement**\n- **PRISM framework** (hierarchy-based red lines using behavioral risk signals)\n- **Repository-level property auditing** (e.g., Meerkat) for detecting violations across deployment traces"
+    },
+    {
+      "query_id": "q3",
+      "query": "What are the key methods for safety, ai safety?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.7159090909090909,
+      "faithful": true,
+      "latency_ms": 48328.386065000814,
+      "retrieved_docs": [
+        "2604.11070v1",
+        "2604.11806v1",
+        "2604.11070v1",
+        "2604.11806v1",
+        "2604.11070v1"
+      ],
+      "answer": "Key methods for AI safety from the context include:\n\n- **Red-teaming** \u2014 testing models for harmful outputs with specific prompts.\n- **Constitutional AI** \u2014 embedding general norms into training, though actual value hierarchies are not independently measured.\n- **Content policy enforcement** \u2014 prohibiting categories like violence, misinformation, and illegal activity.\n- **PRISM Risk Signal Framework** \u2014 sets red lines at the level of value, evidence, and source hierarchies; uses 27 behavioral risk signals with dual-threshold classification to detect dangerous reasoning structures before harmful outputs occur.\n- **Meerkat** \u2014 a property-directed auditor for finding violations of natural-language safety requirements in repositories of deployment traces, enabling repository-level post-deployment monitoring."
+    },
+    {
+      "query_id": "q4",
+      "query": "What are the key methods for llm, language model?",
+      "doc_recall": 0.0,
+      "chunk_relevance": 1.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "generation_score": 0.5813953488372093,
+      "faithful": true,
+      "latency_ms": 35016.41828500033,
+      "retrieved_docs": [
+        "2604.11328v1",
+        "2604.11504v1",
+        "2604.11104v1",
+        "2604.11307v1",
+        "2604.11419v1"
+      ],
+      "answer": "Based on the retrieved context, key methods for large language models (LLMs) include:\n\n- In-context learning\n- Chain-of-thought prompting\n- Automatic prompt optimization (APO)\n- LLM-as-a-Judge evaluation\n- Coupling knowledge graphs with frugal or quantized LLMs\n\nThe context does not provide a comprehensive or definitive list of all key methods for LLMs."
+    },
+    {
+      "query_id": "q6",
+      "query": "What are the key methods for agent, agents?",
+      "doc_recall": 0.0,
+      "chunk_relevance": 1.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "generation_score": 0.6111111111111112,
+      "faithful": true,
+      "latency_ms": 38272.78388100058,
+      "retrieved_docs": [
+        "2604.11557v1",
+        "2604.11548v1",
+        "2604.11548v1",
+        "2604.11378v1",
+        "2604.11378v1"
+      ],
+      "answer": "Based on the context, key methods for agents include:\n\n- **Tool use / tool learning**: translating natural language into executable function calls, selecting/composing/executing tools.\n- **The Agent Loop**: an iterative cycle of reasoning, acting, and observing where the LLM reads a growing context window.\n- **Graph-based orchestration**: e.g., AGORA unifies language agent algorithms; simpler methods like Chain-of-Thought can perform robustly with lower overhead.\n\nThe context mentions four extension mechanisms but does not enumerate them, so it is incomplete on that point."
+    },
+    {
+      "query_id": "q8",
+      "query": "What are the key methods for llm, language model?",
+      "doc_recall": 0.0,
+      "chunk_relevance": 1.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "generation_score": 0.4358974358974359,
+      "faithful": true,
+      "latency_ms": 37318.798002999756,
+      "retrieved_docs": [
+        "2604.11328v1",
+        "2604.11504v1",
+        "2604.11104v1",
+        "2604.11307v1",
+        "2604.11419v1"
+      ],
+      "answer": "Based on the provided context, methods for LLMs include: in-context learning, chain-of-thought prompting, automatic prompt optimization, LLM-as-a-Judge evaluation, coupling LLMs with knowledge graphs, and using quantized LLMs for local execution. The context does not provide a complete or general list of key methods."
+    },
+    {
+      "query_id": "q11",
+      "query": "What are the key methods for llm, language model?",
+      "doc_recall": 0.0,
+      "chunk_relevance": 1.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "generation_score": 0.5666666666666667,
+      "faithful": true,
+      "latency_ms": 42613.670926999475,
+      "retrieved_docs": [
+        "2604.11328v1",
+        "2604.11504v1",
+        "2604.11104v1",
+        "2604.11307v1",
+        "2604.11419v1"
+      ],
+      "answer": "Based on the retrieved context, key methods include: in-context learning, chain-of-thought prompting, automatic prompt optimization (APO), static subset selection via submodular optimization (e.g., SESS), dynamic heuristic refinement (e.g., IPOMP), and LLM-as-a-Judge evaluation."
+    },
+    {
+      "query_id": "q12",
+      "query": "What are the key methods for llm, language model?",
+      "doc_recall": 0.0,
+      "chunk_relevance": 1.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "generation_score": 0.4375,
+      "faithful": true,
+      "latency_ms": 36810.018991000106,
+      "retrieved_docs": [
+        "2604.11328v1",
+        "2604.11504v1",
+        "2604.11104v1",
+        "2604.11307v1",
+        "2604.11419v1"
+      ],
+      "answer": "The context does not contain enough information to answer the question about key methods for LLMs/language models."
+    },
+    {
+      "query_id": "q14",
+      "query": "What are the key methods for llm, language model?",
+      "doc_recall": 0.0,
+      "chunk_relevance": 1.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "generation_score": 0.4857142857142857,
+      "faithful": true,
+      "latency_ms": 34674.631434998446,
+      "retrieved_docs": [
+        "2604.11328v1",
+        "2604.11504v1",
+        "2604.11104v1",
+        "2604.11307v1",
+        "2604.11419v1"
+      ],
+      "answer": "Based on the retrieved context, key methods mentioned include: in-context learning, chain-of-thought prompting, automatic prompt optimization (APO), LLM-as-a-Judge evaluation, and coupling knowledge graphs with frugal/quantized LLMs. The context does not provide a comprehensive list of key methods for LLMs."
+    },
+    {
+      "query_id": "q16",
+      "query": "What are the key methods for llm, language model?",
+      "doc_recall": 0.0,
+      "chunk_relevance": 1.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "generation_score": 0.5961538461538461,
+      "faithful": true,
+      "latency_ms": 35325.355746999776,
+      "retrieved_docs": [
+        "2604.11328v1",
+        "2604.11504v1",
+        "2604.11104v1",
+        "2604.11307v1",
+        "2604.11419v1"
+      ],
+      "answer": "Based solely on the retrieved context, key methods related to large language models include:\n\n- In-context learning\n- Chain-of-thought prompting\n- Automatic prompt optimization (APO)\n- Using an LLM-as-a-Judge evaluation framework\n- Coupling knowledge graphs with frugal LLMs\n- Examining model architecture and core mechanisms for language comprehension\n\nThe context does not provide a comprehensive list of all key methods for LLMs."
+    },
+    {
+      "query_id": "q17",
+      "query": "What are the key methods for chatbot, information probing?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.7681159420289855,
+      "faithful": true,
+      "latency_ms": 46434.71162300011,
+      "retrieved_docs": [
+        "2604.11077v1",
+        "2604.11077v1",
+        "2604.11077v1",
+        "2604.11077v1",
+        "2604.11077v1"
+      ],
+      "answer": "Based on the retrieved context, the key method for chatbot information probing is **PROCHATIP**, a proactive chatbot framework featuring a specialized conversation strategy module trained to master the timing of probes. It balances information acquisition with service quality by deciding when to probe users in multi-turn dialogues to maximize information gathering while minimizing conversation turns and user friction. The context also notes that future work may involve topic steering and deeper interaction strategies, but these are not yet implemented methods."
+    },
+    {
+      "query_id": "q18",
+      "query": "What are the key methods for knowledge graph, local llm?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.631578947368421,
+      "faithful": true,
+      "latency_ms": 67207.0220580008,
+      "retrieved_docs": [
+        "2604.11104v1",
+        "2604.11703v1",
+        "2604.11419v1",
+        "2604.11104v1",
+        "2604.11419v1"
+      ],
+      "answer": "Based solely on the retrieved context, key methods for combining knowledge graphs with local LLMs include:\n\n- Coupling knowledge graphs (KGs) with frugal, quantized LLMs executed locally without specialized training, where the KG provides verifiable structure and the LLM acts as the natural language interface.\n- Converting unstructured text into graph representations using LLM prompting, e.g., generating Cypher code with MERGE operations to construct non-duplicative graph structures (such as in Neo4j).\n- Structured query understanding, plus spatial reasoning (distance-based recommendations) and temporal filtering (operating hours), as in the DreamKG system.\n- Graph-based retrieval that traverses structured relationships for relational queries and multi-hop reasoning.\n- Prompt engineering and synonym matching to improve relation extraction quality; constrained decoding alone contributed less."
+    },
+    {
+      "query_id": "q19",
+      "query": "What are the key methods for healthcare, data policy?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 0.4,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.5648148148148148,
+      "faithful": true,
+      "latency_ms": 45338.518168999144,
+      "retrieved_docs": [
+        "2604.11125v1",
+        "2604.11125v1",
+        "2604.11125v1",
+        "2604.11125v1",
+        "2604.11125v1"
+      ],
+      "answer": "Key methods for healthcare data policy from the context include:\n\n- **Interoperability standards**: Mandating HL7 FHIR, LOINC, SNOMED CT, and common data models like OMOP for structured data exchange.\n- **Federated governance**: Maintaining data sovereignty across states and central government while participating in a coordinated commons, supported by frameworks like DPDPA 2023.\n- **Incentives**: Recognizing curated datasets, registry contributions, and data audits as scholarly output; including data contributions in promotion criteria, funding decisions, and institutional rankings.\n- **Infrastructure**: Defining specialty-specific minimum datasets, building interoperable registries and shared platforms, and using federated architectures where centralization is risky.\n- **Governance**: Issuing clear regulatory guidance and safe harbours, using transparent data use agreements, and implementing quality assessment and fair attribution mechanisms.\n- **Budgeting for data management**: Allowing data curation and repository fees as allowable costs in research grants, as done by the US NIH."
+    },
+    {
+      "query_id": "q20",
+      "query": "What are the key methods for quantum, reinforcement learning?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.7435897435897436,
+      "faithful": true,
+      "latency_ms": 39068.07874599872,
+      "retrieved_docs": [
+        "2604.11131v1",
+        "2604.11131v1",
+        "2604.11504v1",
+        "2604.11131v1",
+        "2604.11131v1"
+      ],
+      "answer": "Key methods for quantum reinforcement learning mentioned in the context include: compact encoding, enhanced representation and learning algorithms, random sampling, the inherent stochastic nature of quantum systems, hybrid quantum-classical model for policy representation, and policy-based methods such as policy gradient methods, the cross-entropy method, and PPO for sparse-reward/discrete-action problems."
+    },
+    {
+      "query_id": "q21",
+      "query": "What are the key methods for ai values, authority stack?",
+      "doc_recall": 0.0,
+      "chunk_relevance": 1.0,
+      "mrr": 0.0,
+      "ndcg_at_k": 0.0,
+      "generation_score": 0.6896551724137931,
+      "faithful": true,
+      "latency_ms": 50776.31234399996,
+      "retrieved_docs": [
+        "2604.11065v1",
+        "2604.11065v1",
+        "2604.11065v1",
+        "2604.11065v1",
+        "2604.11065v1"
+      ],
+      "answer": "The key method is **AI Integrity**, which protects the **Authority Stack**\u2014a 4-layer cascade model of **Normative, Epistemic, Source, and Data Authority**\u2014from corruption, contamination, manipulation, and bias. It is grounded in Schwartz Basic Human Values, Walton argumentation schemes with GRADE/CEBM hierarchies, and Source Credibility Theory. The operational methodology is the **PRISM (Profile-based Reasoning Integrity Stack Measurement) framework**, which defines six core metrics and a phased research roadmap. It also distinguishes legitimate cascading from **Authority Pollution** and identifies **Integrity Hallucination** as the measurable threat to value consistency. The approach is procedural: it verifies that the path from evidence to conclusion is transparent and auditable, rather than prescribing which values are correct."
+    },
+    {
+      "query_id": "q22",
+      "query": "What are the key methods for benchmark, agentic research?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.6739130434782609,
+      "faithful": true,
+      "latency_ms": 42833.000470000115,
+      "retrieved_docs": [
+        "2604.11307v1",
+        "2604.11307v1",
+        "2604.11307v1",
+        "2604.11307v1",
+        "2604.11307v1"
+      ],
+      "answer": "The key methods for benchmarking agentic research, as introduced by PaperScope, include:\n\n- Assessing agents\u2019 capabilities in multi-source information retrieval, synthesis, reasoning, and generation.\n- Using a large-scale corpus with questions requiring cross-document retrieval, multi-modal grounding, and multi-resource reasoning.\n- Organizing tasks into four meta-categories: Topic Induction, Multi-Document Reasoning, Summary, and Solution."
+    },
+    {
+      "query_id": "q23",
+      "query": "What are the key methods for prompt, evaluation scheduling?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.6923076923076923,
+      "faithful": true,
+      "latency_ms": 49153.95111399994,
+      "retrieved_docs": [
+        "2604.11328v1",
+        "2604.11328v1",
+        "2604.11328v1",
+        "2604.11328v1",
+        "2604.11328v1"
+      ],
+      "answer": "Key methods: SESS (static selection via submodular optimization), IPOMP (dynamic adaptive selection without formal guarantees), and POES (Prompt-Aware Online Evaluation Scheduling), which combines IRT-based discrimination utility, facility-location coverage, and switching-cost-aware warm-start swaps into a monotone submodular objective with greedy guarantees and adaptive exploration-exploitation control."
+    },
+    {
+      "query_id": "q24",
+      "query": "What are the key methods for depression detection, multimodal?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.7323943661971831,
+      "faithful": true,
+      "latency_ms": 39356.48341200067,
+      "retrieved_docs": [
+        "2604.11334v1",
+        "2604.11334v1",
+        "2604.11334v1",
+        "2604.11334v1",
+        "2604.11334v1"
+      ],
+      "answer": "Key methods from the retrieved context include:\n\n- Early computational pipelines that learn directly from interview-derived multimodal signals (text, audio, video) to capture depression-related patterns.\n- A coarse-to-fine, multi-stage framework using large language models (LLMs) for binary screening, five-class severity classification, and continuous regression.\n- Multimodal fusion of text, audio, and video features, guided by LLM-generated clinical summaries.\n- Injecting emotion prompts to guide prediction (the EP method).\n- Jointly embedding clinically relevant components\u2014emotion, PHQ aspects, and potential causes\u2014within a unified multimodal pipeline."
+    },
+    {
+      "query_id": "q25",
+      "query": "What are the key methods for ecg, representation learning?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.8,
+      "faithful": true,
+      "latency_ms": 30603.427415000624,
+      "retrieved_docs": [
+        "2604.11359v1",
+        "2604.11359v1",
+        "2604.11359v1",
+        "2604.11359v1",
+        "2604.11359v1"
+      ],
+      "answer": "Based on the context, key methods for ECG representation learning include:\n\n- Contrastive learning\n- Reconstructive learning\n- A unified contrastive and reconstructive pretraining paradigm (CoRe-ECG)\n- Self-supervised representation learning using manipulated temporal-spatial reverse detection as a pretext classification task"
+    },
+    {
+      "query_id": "q26",
+      "query": "What are the key methods for cognitive architecture, knowledge layer?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.7096774193548387,
+      "faithful": true,
+      "latency_ms": 53002.533046999815,
+      "retrieved_docs": [
+        "2604.11364v1",
+        "2604.11364v1",
+        "2604.11364v1",
+        "2604.11364v1",
+        "2604.11364v1"
+      ],
+      "answer": "The key method for the Knowledge layer is **supersession with indefinite persistence**: Knowledge stores factual, structural truths about the world that do not decay or expire; when newer evidence arrives, old facts are marked as superseded rather than forgotten. This layer is distinct from Memory, which uses Ebbinghaus decay, and requires its own persistence semantics rather than treating facts like experiences. Current frameworks such as CoALA and JEPA lack an operationalized Knowledge layer."
+    },
+    {
+      "query_id": "q27",
+      "query": "What are the key methods for reasoning, search trajectories?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.8095238095238095,
+      "faithful": true,
+      "latency_ms": 43103.44595499919,
+      "retrieved_docs": [
+        "2604.11365v1",
+        "2604.11365v1",
+        "2604.11365v1",
+        "2604.11365v1",
+        "2604.11365v1"
+      ],
+      "answer": "The context describes Monte Carlo Tree Search (MCTS) for generating reasoning paths, Rejection Sampling Fine-Tuning (RFT) that retains only the highest-reward trajectory, and Contrastive Reasoning Path Synthesis (CRPS), which uses an explorer model to search trajectories and an analyst model to contrast high- and low-quality paths, extract insights, and synthesize refined reasoning chains."
+    },
+    {
+      "query_id": "q28",
+      "query": "What are the key methods for agent loops, graph execution?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.6666666666666666,
+      "faithful": true,
+      "latency_ms": 63922.30655300045,
+      "retrieved_docs": [
+        "2604.11378v1",
+        "2604.11378v1",
+        "2604.11378v1",
+        "2604.11378v1",
+        "2604.11378v1"
+      ],
+      "answer": "Key methods: **Agent Loops** and **graph-based executors** (e.g., Graph Harness). Both are modeled as schedulers differing in ready-set cardinality and explicitness of scheduling policy. Agent Loops are single-ready-unit schedulers where an opaque LLM inference picks the next step. Graph Harness uses an explicit static DAG with an immutable execution plan, separates planning/execution/recovery, and uses a strict escalation recovery protocol."
+    },
+    {
+      "query_id": "q29",
+      "query": "What are the key methods for cyber threat, graph-based rag?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.6181818181818182,
+      "faithful": true,
+      "latency_ms": 59331.54436299992,
+      "retrieved_docs": [
+        "2604.11419v1",
+        "2604.11419v1",
+        "2604.11419v1",
+        "2604.11419v1",
+        "2604.11419v1"
+      ],
+      "answer": "Key methods include:\n\n- **Vanilla semantic RAG** (standard vector retrieval)\n- **Graph-only GraphRAG** (graph-based retrieval over a CTI knowledge graph)\n- **Agentic GraphRAG** (repairs failed graph queries)\n- **Hybrid graph+text RAG (HRAG)** (combines graph queries with text retrieval)\n\nGraph grounding alone was not a reliable upgrade; agentic refinement and hybrid redundancy provided the largest, most consistent improvements, especially for structured fact-seeking and multi-hop queries."
+    },
+    {
+      "query_id": "q30",
+      "query": "What are the key methods for role orchestration, small models?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 0.2,
+      "mrr": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "generation_score": 0.6,
+      "faithful": true,
+      "latency_ms": 70006.76335499884,
+      "retrieved_docs": [
+        "2604.11548v1",
+        "2604.11465v1",
+        "2604.11548v1",
+        "2604.11623v1",
+        "2604.11623v1"
+      ],
+      "answer": "Based on the context, a key method for role orchestration with small frozen models is **role specialization**: using the same weights as a summarizer, a main acting agent, and a corrector.\n\nThe context also mentions that \"three principal orchestration models have emerged in current practice,\" but it does not enumerate them, and it references AutoGen's `GroupChatManager` as an example of an orchestrator. However, beyond role specialization, the specific key methods are not detailed in the provided context."
+    },
+    {
+      "query_id": "q31",
+      "query": "What are the key methods for market alignment, reinforcement learning?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.74,
+      "faithful": true,
+      "latency_ms": 55581.60374200088,
+      "retrieved_docs": [
+        "2604.11477v1",
+        "2604.11477v1",
+        "2604.11477v1",
+        "2604.11477v1",
+        "2604.11477v1"
+      ],
+      "answer": "The key method is **Out-of-Money Reinforcement Learning (OOM-RL)**, which deploys agents into live financial markets and uses critical capital depletion as an un-hackable negative gradient. This is combined with the **Strict Test-Driven Agentic Workflow (STDAW)**, enforced by a Byzantine-inspired uni-directional state lock (RO-Lock) tied to a deterministically verified \u226595% code coverage constraint matrix."
+    },
+    {
+      "query_id": "q32",
+      "query": "What are the key methods for argumentation semantics?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.6071428571428571,
+      "faithful": true,
+      "latency_ms": 43810.67504500061,
+      "retrieved_docs": [
+        "2604.11480v1",
+        "2604.11480v1",
+        "2604.11480v1",
+        "2604.11480v1",
+        "2604.11480v1"
+      ],
+      "answer": "Based on the context, the key methods for argumentation semantics are:\n\n1. **Extension-based semantics**: identifying sets of arguments (extensions) that form a plausible outcome of the argumentation.\n2. **Ranking-based semantics**: providing a finer-grained assessment of the strength of arguments, for example, the discussion-based semantics, where an argument is considered stronger if it has fewer attack walks (walks of odd length).\n\nThe context does not mention other methods beyond these."
+    },
+    {
+      "query_id": "q33",
+      "query": "What are the key methods for multimodal, vision-language model?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.627906976744186,
+      "faithful": true,
+      "latency_ms": 36318.310257998746,
+      "retrieved_docs": [
+        "2604.11490v1",
+        "2604.11490v1",
+        "2604.11741v1",
+        "2604.11490v1",
+        "2604.11741v1"
+      ],
+      "answer": "Based on the retrieved context, the key method is **GG-EZ (Geographical-generalization-made-easy)**, which uses **regional data filtering and model merging** to adapt multimodal vision-language models to specific regional contexts while preserving global performance. The context also introduces **Anthropogenic Regional Adaptation** as a paradigm for optimizing regional relevance while retaining global generalization."
+    },
+    {
+      "query_id": "q34",
+      "query": "What are the key methods for ai, mathematics?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.6571428571428571,
+      "faithful": false,
+      "latency_ms": 120277.08446100041,
+      "retrieved_docs": [
+        "2604.11504v1",
+        "2604.11504v1",
+        "2604.11504v1",
+        "2604.11504v1",
+        "2604.11504v1"
+      ],
+      "answer": "The retrieved context does not specify key methods for AI in mathematics. It mentions that AI, especially data-driven machine learning, is involved in mathematical research through three stages: discovery of patterns, proving theorems, and constructing counterexamples."
+    },
+    {
+      "query_id": "q35",
+      "query": "What are the key methods for multi-agent, privacy?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.7692307692307693,
+      "faithful": true,
+      "latency_ms": 36196.6242489998,
+      "retrieved_docs": [
+        "2604.11523v1",
+        "2604.11523v1",
+        "2604.11523v1",
+        "2604.11523v1",
+        "2604.11523v1"
+      ],
+      "answer": "Based solely on the retrieved context, the key methods for multi-agent privacy are:\n\n- A scenario-based evaluation framework with explicit, verifiable privacy constraints.\n- Scenario-based multi-agent simulation, where each scenario consists of four components: Profile, Memory, Privacy constraint, and Goal.\n- Turn-based interaction during simulation, where agents select actions by integrating observations with memory and privacy constraints, producing a trajectory.\n- The PAC-BENCH benchmark for systematic evaluation of multi-agent collaboration under privacy constraints."
+    },
+    {
+      "query_id": "q36",
+      "query": "What are the key methods for surrogates, optimization?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.6268656716417911,
+      "faithful": true,
+      "latency_ms": 40262.716272000034,
+      "retrieved_docs": [
+        "2604.11524v1",
+        "2604.11524v1",
+        "2604.11524v1",
+        "2604.11524v1",
+        "2604.11524v1"
+      ],
+      "answer": "Key methods for surrogates in optimization include:\n\n- Dividing surrogate-assisted optimization into two main steps: surrogate-building and surrogate-using.\n- Iteratively updating the surrogate during optimization instead of strictly separating these steps.\n- Using perfect linear surrogates, which are exact representations rather than approximations.\n- Using the Limited Monotonical Perfect Surrogate (LyMPuS), which is parameterless, trained on the fly, requires no separate surrogate-building step, and enables low-cost linkage detection.\n- Performing non-linearity checks for perfect surrogates, though non-monotonicity checks may be more appropriate for many real-world problems."
+    },
+    {
+      "query_id": "q37",
+      "query": "What are the key methods for np-hard problems, problem reductions?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 0.8,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.7659574468085106,
+      "faithful": true,
+      "latency_ms": 38930.9862959999,
+      "retrieved_docs": [
+        "2604.11535v1",
+        "2604.11535v1",
+        "2604.11535v1",
+        "2604.11535v1",
+        "2604.11535v1"
+      ],
+      "answer": "Key methods include polynomial-time reductions organized as a directed reduction graph between problem types, where each edge is a primitive rule with an overhead polynomial, and reductions compose along directed paths. Paths from established NP-complete problems like 3-SAT provide NP-hardness certification, and paths to integer linear programming (ILP) grant access to mature solvers."
+    },
+    {
+      "query_id": "q38",
+      "query": "What are the key methods for personal ai, agent harness?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.9,
+      "faithful": true,
+      "latency_ms": 44537.16187600003,
+      "retrieved_docs": [
+        "2604.11548v1",
+        "2604.11548v1",
+        "2604.11548v1",
+        "2604.11548v1",
+        "2604.11548v1"
+      ],
+      "answer": "Key methods include: a DAG-based two-phase hybrid agent team orchestration method, a PermissionBridge behavioral safety system, a three-tier context management architecture, and an agentic wiki skill for automated personal knowledge base construction."
+    },
+    {
+      "query_id": "q39",
+      "query": "What are the key methods for tool-use, llm agents?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 0.8,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.7209302325581395,
+      "faithful": true,
+      "latency_ms": 59606.45153600126,
+      "retrieved_docs": [
+        "2604.11557v1",
+        "2604.11557v1",
+        "2604.11557v1",
+        "2604.11523v1",
+        "2604.11378v1"
+      ],
+      "answer": "Based on the retrieved context, key methods include:\n\n- **Tool use via function calls**: Translating natural language instructions into executable function calls to access external knowledge, invoke APIs, and perform multi-step operations.\n- **The Agent Loop**: An iterative cycle of reasoning, acting, and observing, where the LLM decides the next action by reading an ever-growing context window.\n- **UniToolCall framework methods**: Standardizing toolset construction, dataset generation, and evaluation; modeling diverse interaction patterns (single-hop vs. multi-hop, single-turn vs. multi-turn, serial vs. parallel execution); using an Anchor Linkage mechanism for cross-turn dependencies; and a unified Query-Action-Observation-Answer (QAOA) representation for fine-grained evaluation."
+    },
+    {
+      "query_id": "q40",
+      "query": "What are the key methods for sycophancy, user demographics?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.78125,
+      "faithful": true,
+      "latency_ms": 43608.88112400062,
+      "retrieved_docs": [
+        "2604.11609v1",
+        "2604.11609v1",
+        "2604.11609v1",
+        "2604.11609v1",
+        "2604.11609v1"
+      ],
+      "answer": "The key method is Anthropic's Petri framework, an automated red-teaming tool using a three-model pipeline: an auditor model plays persona roles and presents incorrect beliefs while conveying demographics through conversational cues; target models (GPT-5-nano and Claude Haiku 4.5) respond; a judge model scores transcripts on a 37-dimension rubric. The study ran 768 multi-turn adversarial conversations across 128 persona combinations covering race, age, gender, and expressed confidence, across three domains (mathematics, philosophy, conspiracy theories)."
+    },
+    {
+      "query_id": "q41",
+      "query": "What are the key methods for knowledge orchestration, enterprise?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.6792452830188679,
+      "faithful": true,
+      "latency_ms": 64654.16438200009,
+      "retrieved_docs": [
+        "2604.11623v1",
+        "2604.11623v1",
+        "2604.11623v1",
+        "2604.11623v1",
+        "2604.11623v1"
+      ],
+      "answer": "Based on the retrieved context, the key methods for enterprise knowledge orchestration are:\n\n- Six core abstractions\n- A YAML-based declarative manifest for knowledge-architecture-as-code\n- A reconciliation loop\n- A three-tier agent permission model where agent authority is always a strict subset of human authority\n- Governed routing (which eliminates phantom delivery and reduces noise)\n- Freshness monitoring via reconciliation (detecting staleness in under 1 ms)"
+    },
+    {
+      "query_id": "q42",
+      "query": "What are the key methods for visual generation, reasoning rewards?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.717948717948718,
+      "faithful": true,
+      "latency_ms": 45591.21062399936,
+      "retrieved_docs": [
+        "2604.11626v1",
+        "2604.11626v1",
+        "2604.11626v1",
+        "2604.11626v1",
+        "2604.11626v1"
+      ],
+      "answer": "Key methods: teaching reward models to produce explicit, multi-dimensional critiques before scoring; using PARROT (Preference-Anchored Rationalization) to recover rationales via anchored generation, consistency filtering, and distillation; applying the model as a fine-grained RL reward; and using a Generate-Critique-Refine loop for test-time prompt revisions."
+    },
+    {
+      "query_id": "q43",
+      "query": "What are the key methods for harmful content, causal analysis?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.8974358974358975,
+      "faithful": true,
+      "latency_ms": 41156.8424699999,
+      "retrieved_docs": [
+        "2604.11663v1",
+        "2604.11663v1",
+        "2604.11663v1",
+        "2604.11663v1",
+        "2604.11663v1"
+      ],
+      "answer": "The key methods for causal analysis of harmful content are causal abstraction, causal interventions, and causal mediation analysis. Specifically, a Causal Mediation Analysis (CMA)-based approach is used to identify causal factors behind harmful generation by treating model components as mediators and tracing the flow of harmful information through layers, modules, and neurons."
+    },
+    {
+      "query_id": "q44",
+      "query": "What are the key methods for knowledge graph, conversation?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.684931506849315,
+      "faithful": true,
+      "latency_ms": 35800.051424999765,
+      "retrieved_docs": [
+        "2604.11703v1",
+        "2604.11104v1",
+        "2604.11307v1",
+        "2604.11104v1",
+        "2604.11419v1"
+      ],
+      "answer": "Key methods for knowledge graph\u2013conversation systems in the context include:\n\n- Combining Neo4j knowledge graphs with structured query understanding to ground responses in verified data.\n- Spatial reasoning for distance-based recommendations and temporal filtering for operating hours.\n- Hybrid architectures that couple LLM flexibility with knowledge graph reliability.\n- A multi-model zero-shot pipeline for knowledge graph construction and exploitation executed via local inference, including relation extraction (F1 0.70).\n- Prompt engineering and synonym matching to improve performance.\n- Text-to-graph conversion from unstructured text via LLM prompts to Cypher, using MERGE operations for non-duplicative graph construction."
+    },
+    {
+      "query_id": "q45",
+      "query": "What are the key methods for agentic ai, cyber-physical systems?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.717948717948718,
+      "faithful": true,
+      "latency_ms": 30589.66522300034,
+      "retrieved_docs": [
+        "2604.11705v1",
+        "2604.11705v1",
+        "2604.11705v1",
+        "2604.11705v1",
+        "2604.11705v1"
+      ],
+      "answer": "Based on the context, the key method is a reactor-model-of-computation (MoC)-based approach, realized using the open-source Lingua Franca (LF) framework, to address nondeterminism in agentic AI-powered human-in-the-loop cyber-physical systems. Foundation models/large language models are also noted as critical components for agentic AI systems."
+    },
+    {
+      "query_id": "q46",
+      "query": "What are the key methods for blast damage, deep learning?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 0.6,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.7555555555555555,
+      "faithful": true,
+      "latency_ms": 27724.563658999614,
+      "retrieved_docs": [
+        "2604.11709v1",
+        "2604.11709v1",
+        "2604.11709v1",
+        "2604.11709v1",
+        "2604.11709v1"
+      ],
+      "answer": "Key methods include: a multimodal, multi-task deep learning network that jointly uses pre- and post-event remote sensing imagery along with blast-loading information; and a Mamba-based multimodal network integrating multi-scale blast-loading information with optical remote sensing images. The approach also uses two stages: pre-training on the large-scale xBD dataset, then fine-tuning with blast-loading information for explosion-specific damage assessment."
+    },
+    {
+      "query_id": "q47",
+      "query": "What are the key methods for software agent, reasoning context?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 0.4,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.5076923076923077,
+      "faithful": true,
+      "latency_ms": 62283.46666099969,
+      "retrieved_docs": [
+        "2604.11716v1",
+        "2604.11378v1",
+        "2604.11716v1",
+        "2604.11548v1",
+        "2604.11548v1"
+      ],
+      "answer": "Key methods from the context include:\n\n- **ReAct-style loop**: Interleaving Thought \u2192 Action \u2192 Observation \u2192 Thought for self-correction.\n- **Dynamic Reasoning Context** (SWE-AGILE): Maintains a sliding window of detailed reasoning for immediate continuity, while compressing historical reasoning into concise **Reasoning Digests** to prevent context explosion.\n- **Trajectory snapshot training** and **compression-aware RLVR** to support reasoning depth under context constraints.\n- **Coarser-grained skills**: Exposing goal-oriented procedures via a single CLI entry point instead of many fine-grained MCP tools to reduce context overhead."
+    },
+    {
+      "query_id": "q48",
+      "query": "What are the key methods for multi-agent, murder mystery?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.7407407407407407,
+      "faithful": true,
+      "latency_ms": 48377.418600000965,
+      "retrieved_docs": [
+        "2604.11741v1",
+        "2604.11741v1",
+        "2604.11741v1",
+        "2604.11741v1",
+        "2604.11741v1"
+      ],
+      "answer": "Key methods include: a **multi-agent collaborative framework** where powerful LLMs act as autonomous agents to synthesize game scripts and generate QA pairs; **automatic generation of reasoning chains** based on incomplete information; and a **two-stage training pipeline**: (1) Chain-of-Thought supervised fine-tuning on curated and synthetic datasets, and (2) GRPO-based reinforcement learning with agent-monitored reward shaping to improve reasoning, role-playing, and deception detection."
+    },
+    {
+      "query_id": "q49",
+      "query": "What are the key methods for organizational ai, epistemic?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.6842105263157895,
+      "faithful": true,
+      "latency_ms": 63473.02310299892,
+      "retrieved_docs": [
+        "2604.11759v1",
+        "2604.11759v1",
+        "2604.11759v1",
+        "2604.11759v1",
+        "2604.11759v1"
+      ],
+      "answer": "The key epistemic methods are: representing organizational knowledge as typed Knowledge Objects with epistemic class, importance scores with class-specific decay, and signed contradiction edges; using a Knowledge Gravity Engine to maintain scores deterministically with convergence guarantees; introducing QUESTION-as-modeled-ignorance, a primitive with inverse decay that surfaces unknown organizational knowledge with increasing urgency; and evaluating outputs using the Epistemic Quality Score (EQS), a five-component methodology. The overall goal is epistemic fidelity: representing commitment strength, contradiction status, and organizational ignorance as computable properties."
+    },
+    {
+      "query_id": "q50",
+      "query": "What are the key methods for soccer tactics, generative modeling?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 1.0,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.8035714285714286,
+      "faithful": true,
+      "latency_ms": 56818.083268999544,
+      "retrieved_docs": [
+        "2604.11786v1",
+        "2604.11786v1",
+        "2604.11786v1",
+        "2604.11786v1",
+        "2604.11786v1"
+      ],
+      "answer": "The key method is **GenTac**, a diffusion-based generative framework that models soccer tactics as a stochastic process over continuous multi-player trajectories and discrete semantic events. It learns the distribution of player movements from historical tracking data, samples diverse long-horizon future trajectories, supports contextual conditioning (opponent behavior, team/league styles, strategic objectives), and grounds spatial dynamics into a 15-class tactical event space."
+    },
+    {
+      "query_id": "q51",
+      "query": "What are the key methods for safety violations, agent traces?",
+      "doc_recall": 1.0,
+      "chunk_relevance": 0.8,
+      "mrr": 1.0,
+      "ndcg_at_k": 1.0,
+      "generation_score": 0.7674418604651163,
+      "faithful": true,
+      "latency_ms": 36116.33230499865,
+      "retrieved_docs": [
+        "2604.11806v1",
+        "2604.11806v1",
+        "2604.11806v1",
+        "2604.11806v1",
+        "2604.11806v1"
+      ],
+      "answer": "The key method presented is **Meerkat**, which combines **clustering** with **agentic search** to uncover safety violations specified in natural language. It uses **property compilation, repository-level hypothesis search, and counterexample verification** in a single auditing loop to find sparse failures across large sets of agent traces."
+    }
+  ],
+  "top_k": 5,
+  "reranker": "BAAI/bge-reranker-v2-m3",
+  "reranker_backend": "transformers",
+  "initial_k": 25
+}

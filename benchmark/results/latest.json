@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-08-20T12:58:53.486790+00:00",
+  "queries": 45,
+  "top_k": 5,
+  "experiments": {
+    "baseline": {
+      "doc_recall_at_k": 0.8666666666666667,
+      "chunk_relevance_at_k": 0.8711111111111112,
+      "mrr_at_k": 0.7877777777777778,
+      "ndcg_at_k": 0.8068847163339151,
+      "generation_score": 0.6475856815838181,
+      "faithfulness_rate": 1,
+      "avg_latency_ms": 99.27464035552273,
+      "p95_latency_ms": 140.00380099969334
+    },
+    "rerank": {
+      "doc_recall_at_k": 0.7777777777777778,
+      "chunk_relevance_at_k": 0.9333333333333333,
+      "mrr_at_k": 0.7666666666666667,
+      "ndcg_at_k": 0.7695762167460324,
+      "generation_score": 0.6713122281081514,
+      "faithfulness_rate": 0.9777777777777777,
+      "avg_latency_ms": 47264.14657446658,
+      "p95_latency_ms": 67207.0220580008,
+      "reranker": "BAAI/bge-reranker-v2-m3",
+      "reranker_backend": "transformers",
+      "initial_k": 25
+    }
+  }
+}
