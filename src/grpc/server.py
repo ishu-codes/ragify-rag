@@ -9,7 +9,10 @@ or the ``ragify-server`` console script. The port/host can be configured with
 """
 
 import tempfile
+import time
+import uuid
 from concurrent import futures
+from contextlib import contextmanager
 from os import getenv
 from pathlib import Path
 
@@ -20,8 +23,11 @@ from src.core.ingestion.chunk_processor import process_section
 from src.core.ingestion.grobid_ingestion import GrobidIngestor
 from src.core.ingestion.transcoder import transcoder
 from src.core.retrieval import vector_store_manager
+from src.core.utils.logger import correlation_id, get_logger
 
 from . import ragify_pb2, ragify_pb2_grpc
+
+logger = get_logger("ragify.grpc")
 
 RAGIFY_GRPC_HOST = getenv("RAGIFY_GRPC_HOST", "0.0.0.0")
 RAGIFY_GRPC_PORT = int(getenv("RAGIFY_GRPC_PORT", "50051"))
@@ -31,6 +37,29 @@ RAGIFY_GRPC_MAX_MESSAGE_LENGTH = int(
 )
 
 _MARKDOWN_KINDS = {"md", "markdown", "txt", "text"}
+
+
+@contextmanager
+def _request_span(kind: str, **fields):
+    """Trace one RPC: sets a correlation id and logs start/end/failure."""
+    request_id = str(uuid.uuid4())
+    token = correlation_id.set(request_id)
+    started = time.monotonic()
+    logger.info(f"{kind}_start", extra={"request_id": request_id, **fields})
+    try:
+        yield
+    except Exception:
+        logger.exception(f"{kind}_failed", extra={"request_id": request_id})
+        raise
+    finally:
+        logger.info(
+            f"{kind}_end",
+            extra={
+                "request_id": request_id,
+                "duration_s": round(time.monotonic() - started, 3),
+            },
+        )
+        correlation_id.reset(token)
 
 
 def _convert_bytes_to_markdown(filename: str, content: bytes) -> str:
@@ -55,12 +84,17 @@ class VectorStoreService(ragify_pb2_grpc.VectorStoreServiceServicer):
         return ragify_pb2.Empty()
 
     def InsertDocuments(self, request, context):
-        documents = [
-            Document(page_content=doc.text, metadata=dict(doc.metadata))
-            for doc in request.documents
-        ]
-        vector_store_manager.insert_documents(str(request.workspace_id), documents)
-        return ragify_pb2.InsertDocumentsResponse(inserted=len(documents))
+        with _request_span(
+            "insert_documents",
+            workspace_id=request.workspace_id,
+            document_count=len(request.documents),
+        ):
+            documents = [
+                Document(page_content=doc.text, metadata=dict(doc.metadata))
+                for doc in request.documents
+            ]
+            vector_store_manager.insert_documents(str(request.workspace_id), documents)
+            return ragify_pb2.InsertDocumentsResponse(inserted=len(documents))
 
 
 class IngestionService(ragify_pb2_grpc.IngestionServiceServicer):
@@ -75,54 +109,64 @@ class IngestionService(ragify_pb2_grpc.IngestionServiceServicer):
         return ragify_pb2.ConvertToMarkdownResponse(markdown=markdown)
 
     def ProcessDocument(self, request, context):
-        if not request.content:
-            context.abort(grpc.StatusCode.INVALID_ARGUMENT, "File content is empty")
+        with _request_span(
+            "process_document",
+            workspace_id=request.workspace_id,
+            filename=request.filename,
+        ):
+            if not request.content:
+                context.abort(grpc.StatusCode.INVALID_ARGUMENT, "File content is empty")
 
-        kind = (request.kind or "").lower()
-        if kind in _MARKDOWN_KINDS:
-            text = request.content.decode("utf-8", errors="replace")
-        else:
-            text = _convert_bytes_to_markdown(request.filename, request.content)
+            kind = (request.kind or "").lower()
+            if kind in _MARKDOWN_KINDS:
+                text = request.content.decode("utf-8", errors="replace")
+            else:
+                text = _convert_bytes_to_markdown(request.filename, request.content)
 
-        chunks = process_section([text])
-        documents = [
-            Document(
-                page_content=chunk,
-                metadata={
-                    "source": request.filename,
-                    "chunk": str(index),
-                    "chunk_type": request.chunk_type or kind,
-                },
-            )
-            for index, chunk in enumerate(chunks)
-        ]
-        vector_store_manager.insert_documents(str(request.workspace_id), documents)
-        return ragify_pb2.ProcessDocumentResponse(chunks=len(documents))
+            chunks = process_section([text])
+            documents = [
+                Document(
+                    page_content=chunk,
+                    metadata={
+                        "source": request.filename,
+                        "chunk": str(index),
+                        "chunk_type": request.chunk_type or kind,
+                    },
+                )
+                for index, chunk in enumerate(chunks)
+            ]
+            vector_store_manager.insert_documents(str(request.workspace_id), documents)
+            return ragify_pb2.ProcessDocumentResponse(chunks=len(documents))
 
     def IngestPdf(self, request, context):
-        results = []
-        processed = 0
-        failed = 0
+        with _request_span(
+            "ingest_pdf",
+            workspace_id=request.workspace_id,
+            file_count=len(request.files),
+        ):
+            results = []
+            processed = 0
+            failed = 0
 
-        for pdf in request.files:
-            try:
-                with tempfile.TemporaryDirectory(prefix="ragify-pdf-") as tmp_dir:
-                    pdf_path = Path(tmp_dir) / (Path(pdf.name).name or "document.pdf")
-                    pdf_path.write_bytes(pdf.content)
-                    GrobidIngestor(str(request.workspace_id), str(pdf_path.parent)).ingest()
-                results.append(ragify_pb2.PdfResult(name=pdf.name, ok=True))
-                processed += 1
-            except Exception as exc:  # per-file failures don't kill the batch
-                results.append(
-                    ragify_pb2.PdfResult(name=pdf.name, ok=False, error=str(exc))
-                )
-                failed += 1
+            for pdf in request.files:
+                try:
+                    with tempfile.TemporaryDirectory(prefix="ragify-pdf-") as tmp_dir:
+                        pdf_path = Path(tmp_dir) / (Path(pdf.name).name or "document.pdf")
+                        pdf_path.write_bytes(pdf.content)
+                        GrobidIngestor(str(request.workspace_id), str(pdf_path.parent)).ingest()
+                    results.append(ragify_pb2.PdfResult(name=pdf.name, ok=True))
+                    processed += 1
+                except Exception as exc:  # per-file failures don't kill the batch
+                    results.append(
+                        ragify_pb2.PdfResult(name=pdf.name, ok=False, error=str(exc))
+                    )
+                    failed += 1
 
-        return ragify_pb2.IngestPdfResponse(
-            processed=processed,
-            failed=failed,
-            results=results,
-        )
+            return ragify_pb2.IngestPdfResponse(
+                processed=processed,
+                failed=failed,
+                results=results,
+            )
 
 
 class RagService(ragify_pb2_grpc.RagServiceServicer):
@@ -137,28 +181,33 @@ class RagService(ragify_pb2_grpc.RagServiceServicer):
     }
 
     def Query(self, request, context):
-        from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+        with _request_span(
+            "query",
+            workspace_id=request.workspace_id,
+            message_count=len(request.messages),
+        ):
+            from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
-        from src.core.generation import builder
+            from src.core.generation import builder
 
-        message_types = {
-            "human": HumanMessage,
-            "ai": AIMessage,
-            "system": SystemMessage,
-        }
-        messages = []
-        for msg in request.messages:
-            kind = self._ROLE_MESSAGE_TYPES.get(msg.role, "human")
-            messages.append(message_types[kind](content=msg.content))
-
-        result = builder.invoke(
-            {
-                "messages": messages,
-                "workspace_id": request.workspace_id,
+            message_types = {
+                "human": HumanMessage,
+                "ai": AIMessage,
+                "system": SystemMessage,
             }
-        )
-        answer = result["messages"][-1].content
-        return ragify_pb2.QueryResponse(answer=answer)
+            messages = []
+            for msg in request.messages:
+                kind = self._ROLE_MESSAGE_TYPES.get(msg.role, "human")
+                messages.append(message_types[kind](content=msg.content))
+
+            result = builder.invoke(
+                {
+                    "messages": messages,
+                    "workspace_id": request.workspace_id,
+                }
+            )
+            answer = result["messages"][-1].content
+            return ragify_pb2.QueryResponse(answer=answer)
 
 
 def build_server() -> grpc.Server:

@@ -1,3 +1,5 @@
+import uuid
+
 from langchain_core.documents import Document
 from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
@@ -5,6 +7,11 @@ from qdrant_client.models import Distance, PointStruct, VectorParams
 
 from src.core.retrieval.embedder import embeddings
 from src.core.utils.config import VECTOR_SIZE, VECTORDB_URL
+from src.core.utils.logger import get_logger
+
+logger = get_logger("ragify.vector_store")
+
+_EMBED_BATCH_SIZE = 64
 
 
 class VectorStoreManager:
@@ -89,9 +96,58 @@ class VectorStoreManager:
         self,
         collection_name: str,
         documents: list[Document],
-    ) -> None:
-        store = self.get_or_create(collection_name)
-        store.add_documents(documents)
+    ) -> list[str]:
+        """Embed and upsert documents in batches.
+
+        Returns the point ids in document order so callers can persist a
+        mapping from chunk text to the vector database for monitoring.
+        """
+        if not documents:
+            return []
+
+        # Ensure the collection exists without embedding anything (the old
+        # path passed documents into get_or_create, which embedded each chunk
+        # through langchain one call at a time).
+        self.get_or_create(collection_name)
+
+        # Batch embeddings and upserts: one embed call + one blocking upsert
+        # per batch instead of one round-trip per chunk.
+        point_ids: list[str] = []
+        for start in range(0, len(documents), _EMBED_BATCH_SIZE):
+            batch = documents[start : start + _EMBED_BATCH_SIZE]
+            vectors = embeddings.encode([d.page_content for d in batch])
+            points = []
+            for index, (d, vector) in enumerate(zip(batch, vectors)):
+                point_id = str(
+                    uuid.uuid5(
+                        uuid.NAMESPACE_URL,
+                        f"{collection_name}:{d.page_content}:{start + index}",
+                    )
+                )
+                points.append(
+                    PointStruct(
+                        id=point_id,
+                        vector=vector,
+                        # Keep langchain's payload contract so the retriever
+                        # (QdrantVectorStore) reconstructs Documents correctly.
+                        payload={"page_content": d.page_content, "metadata": d.metadata},
+                    )
+                )
+            self._client.upsert(
+                collection_name=collection_name,
+                points=points,
+                wait=True,
+            )
+            point_ids.extend(point.id for point in points)
+            logger.info(
+                "upsert_batch",
+                extra={
+                    "collection": collection_name,
+                    "points": len(points),
+                    "batch_index": start // _EMBED_BATCH_SIZE,
+                },
+            )
+        return point_ids
 
     def insert_points(
         self,

@@ -3,6 +3,10 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from src.core.retrieval import vector_store_manager
 from src.core.utils.config import MAX_TOKENS, OVERLAP
+from src.core.utils.logger import get_logger
+from src.core.utils.text_quality import is_degenerate
+
+logger = get_logger("ragify.ingestion")
 
 
 class DocumentIngester:
@@ -31,7 +35,17 @@ class DocumentIngester:
     def create_chunks(
         self, text: str, source_name: str, metadata: dict | None = None
     ) -> list[Document]:
-        chunks = self.split_text(text)
+        raw_chunks = self.split_text(text)
+        chunks = [chunk for chunk in raw_chunks if not is_degenerate(chunk)]
+        if len(chunks) != len(raw_chunks):
+            logger.warning(
+                "skipped_degenerate_chunks",
+                extra={
+                    "source": source_name,
+                    "skipped": len(raw_chunks) - len(chunks),
+                    "kept": len(chunks),
+                },
+            )
         meta = metadata or {}
         return [
             Document(
@@ -41,7 +55,7 @@ class DocumentIngester:
         ]
 
     def index_documents(self, documents: list[Document], collection_name: str) -> None:
-        vector_store_manager.get_or_create(collection_name, documents=documents)
+        vector_store_manager.insert_documents(collection_name, documents)
 
     def process_and_index(
         self,

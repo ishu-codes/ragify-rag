@@ -86,7 +86,7 @@ class PDFTranscoder:
                 )
             )
 
-        vector_store_manager.get_or_create(collection_name, documents=chunks)
+        vector_store_manager.insert_documents(collection_name, chunks)
         return chunks
 
 

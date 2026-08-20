@@ -33,3 +33,7 @@ COLLECTION_NAME = getenv("COLLECTION_NAME", "documents")
 VECTOR_SIZE = int(getenv("VECTOR_SIZE", "384"))
 MAX_TOKENS = int(getenv("MAX_TOKENS", "400"))
 OVERLAP = int(getenv("OVERLAP", "50"))
+
+# Where Grobid artifacts (pdf / xml / json / chunks) are persisted for
+# debugging, relative to the rag working directory.
+ARTIFACTS_ROOT = getenv("ARTIFACTS_ROOT", "source/workspace")

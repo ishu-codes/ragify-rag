@@ -42,3 +42,6 @@ skills-lock.json
 
 # Other unnecessary files
 others/
+
+# Grobid/ingestion artifacts (pdf/xml/json/chunks) — debugging only
+source/
