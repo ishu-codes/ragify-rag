@@ -29,6 +29,7 @@ LLM_STRUCTURED_OUTPUT = getenv("LLM_STRUCTURED_OUTPUT", "false").lower() in (
 
 # VectorDB
 VECTORDB_URL = getenv("VECTORDB_URL", "http://localhost:6333/")
+VECTORDB_API_KEY = getenv("VECTORDB_API_KEY", "")
 COLLECTION_NAME = getenv("COLLECTION_NAME", "documents")
 VECTOR_SIZE = int(getenv("VECTOR_SIZE", "384"))
 MAX_TOKENS = int(getenv("MAX_TOKENS", "400"))

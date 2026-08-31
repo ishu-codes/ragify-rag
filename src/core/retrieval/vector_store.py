@@ -6,7 +6,7 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, PointStruct, VectorParams
 
 from src.core.retrieval.embedder import embeddings
-from src.core.utils.config import VECTOR_SIZE, VECTORDB_URL
+from src.core.utils.config import VECTORDB_API_KEY, VECTOR_SIZE, VECTORDB_URL
 from src.core.utils.logger import get_logger
 
 logger = get_logger("ragify.vector_store")
@@ -18,7 +18,7 @@ class VectorStoreManager:
     def __init__(
         self,
         url: str = VECTORDB_URL,
-        api_key: str | None = None,
+        api_key: str | None = VECTORDB_API_KEY or None,
         vector_size: int = VECTOR_SIZE,
     ):
         self.url = url
@@ -62,6 +62,7 @@ class VectorStoreManager:
                 embedding=embeddings.client,
                 url=self.url,
                 collection_name=collection_name,
+                api_key=self.api_key,
             )
         elif collection_exists:
             # Use existing collection from server
@@ -69,6 +70,7 @@ class VectorStoreManager:
                 embedding=embeddings.client,
                 url=self.url,
                 collection_name=collection_name,
+                api_key=self.api_key,
             )
         else:
             # Create new empty collection
@@ -77,6 +79,7 @@ class VectorStoreManager:
                 embedding=embeddings.client,
                 url=self.url,
                 collection_name=collection_name,
+                api_key=self.api_key,
             )
 
         self._stores[collection_name] = store

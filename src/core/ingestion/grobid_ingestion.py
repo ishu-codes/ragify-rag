@@ -2,6 +2,7 @@ import json
 import shutil
 import uuid
 from collections import defaultdict
+from os import getenv
 from pathlib import Path
 from typing import Any
 
@@ -30,7 +31,12 @@ class GrobidIngestor:
 
         # _output_dir for xml and json
         self._output_dir = input_dir if output_dir is None else output_dir
-        self._grobid_client = GrobidClient()
+        self._grobid_client = GrobidClient(
+            grobid_server=getenv("GROBID_URL", "http://localhost:8070"),
+            # Don't ping on init: on Cloud Run the Grobid instance may still
+            # be cold-starting when this client is constructed.
+            check_server=False,
+        )
         # Persisted artifacts (pdf / xml / json / chunks) for debugging, under
         # source/workspace/{workspace_id} in the rag directory.
         self._artifacts_root = Path(ARTIFACTS_ROOT) / str(collection_name)
