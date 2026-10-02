@@ -8,6 +8,7 @@ or the ``ragify-server`` console script. The port/host can be configured with
 ``RAGIFY_GRPC_HOST`` and ``RAGIFY_GRPC_PORT``.
 """
 
+import logging
 import tempfile
 import time
 import uuid
@@ -38,6 +39,18 @@ RAGIFY_GRPC_MAX_MESSAGE_LENGTH = int(
 
 _MARKDOWN_KINDS = {"md", "markdown", "txt", "text"}
 
+# ``extra`` may not contain LogRecord's own attributes (filename, module, name,
+# ...): logging raises "Attempt to overwrite ... in LogRecord" and the RPC would
+# fail on its first log line. JsonFormatter skips those keys anyway, so drop
+# them rather than let a log field take down a request.
+_RESERVED_LOG_KEYS = frozenset(
+    logging.LogRecord("", logging.INFO, "", 0, "", (), None).__dict__
+) | {"message", "asctime"}
+
+
+def _safe_extra(**fields):
+    return {k: v for k, v in fields.items() if k not in _RESERVED_LOG_KEYS}
+
 
 @contextmanager
 def _request_span(kind: str, **fields):
@@ -45,7 +58,9 @@ def _request_span(kind: str, **fields):
     request_id = str(uuid.uuid4())
     token = correlation_id.set(request_id)
     started = time.monotonic()
-    logger.info(f"{kind}_start", extra={"request_id": request_id, **fields})
+    logger.info(
+        f"{kind}_start", extra={"request_id": request_id, **_safe_extra(**fields)}
+    )
     try:
         yield
     except Exception:
@@ -112,7 +127,7 @@ class IngestionService(ragify_pb2_grpc.IngestionServiceServicer):
         with _request_span(
             "process_document",
             workspace_id=request.workspace_id,
-            filename=request.filename,
+            file=request.filename,
         ):
             if not request.content:
                 context.abort(grpc.StatusCode.INVALID_ARGUMENT, "File content is empty")

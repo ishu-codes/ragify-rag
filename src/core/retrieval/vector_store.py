@@ -5,13 +5,19 @@ from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, PointStruct, VectorParams
 
-from src.core.retrieval.embedder import embeddings
-from src.core.utils.config import VECTORDB_API_KEY, VECTOR_SIZE, VECTORDB_URL
+from src.core.retrieval.embedder import configure_embedder_threads, embeddings
+from src.core.utils.config import (
+    EMBED_BATCH_SIZE,
+    INGEST_WORKERS,
+    VECTOR_SIZE,
+    VECTORDB_API_KEY,
+    VECTORDB_URL,
+)
 from src.core.utils.logger import get_logger
 
 logger = get_logger("ragify.vector_store")
 
-_EMBED_BATCH_SIZE = 64
+_EMBED_BATCH_SIZE = EMBED_BATCH_SIZE
 
 
 class VectorStoreManager:
@@ -113,12 +119,32 @@ class VectorStoreManager:
         # through langchain one call at a time).
         self.get_or_create(collection_name)
 
-        # Batch embeddings and upserts: one embed call + one blocking upsert
-        # per batch instead of one round-trip per chunk.
+        batches = [
+            documents[start : start + _EMBED_BATCH_SIZE]
+            for start in range(0, len(documents), _EMBED_BATCH_SIZE)
+        ]
+
+        # Embedding is the CPU-bound part and the batches are independent, so
+        # fan them out. The upserts stay sequential and in order so the returned
+        # point ids keep document order.
+        workers = min(INGEST_WORKERS, len(batches))
+        if workers > 1:
+            from src.utils.threads import run_in_threads
+
+            configure_embedder_threads(workers)
+            vector_batches = run_in_threads(
+                lambda batch: embeddings.encode([d.page_content for d in batch]),
+                batches,
+                workers,
+            )
+        else:
+            vector_batches = [
+                embeddings.encode([d.page_content for d in batch]) for batch in batches
+            ]
+
         point_ids: list[str] = []
-        for start in range(0, len(documents), _EMBED_BATCH_SIZE):
-            batch = documents[start : start + _EMBED_BATCH_SIZE]
-            vectors = embeddings.encode([d.page_content for d in batch])
+        for batch_index, (batch, vectors) in enumerate(zip(batches, vector_batches)):
+            start = batch_index * _EMBED_BATCH_SIZE
             points = []
             for index, (d, vector) in enumerate(zip(batch, vectors)):
                 point_id = str(
@@ -133,7 +159,10 @@ class VectorStoreManager:
                         vector=vector,
                         # Keep langchain's payload contract so the retriever
                         # (QdrantVectorStore) reconstructs Documents correctly.
-                        payload={"page_content": d.page_content, "metadata": d.metadata},
+                        payload={
+                            "page_content": d.page_content,
+                            "metadata": d.metadata,
+                        },
                     )
                 )
             self._client.upsert(
@@ -147,7 +176,7 @@ class VectorStoreManager:
                 extra={
                     "collection": collection_name,
                     "points": len(points),
-                    "batch_index": start // _EMBED_BATCH_SIZE,
+                    "batch_index": batch_index,
                 },
             )
         return point_ids

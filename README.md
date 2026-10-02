@@ -1,12 +1,12 @@
 # ragify-rag
 
-RAG engine for Ragify, exposed as a standalone gRPC server. It handles document ingestion (chunking, markdown conversion, PDF parsing via Grobid), embeddings (Ollama), vector storage (Qdrant) and the LangGraph query pipeline (routing, retrieval, evaluation, generation).
+RAG engine for Ragify, exposed as a standalone gRPC server. It handles document ingestion (chunking, markdown conversion, PDF parsing via Grobid), embeddings (transformers, in-process), vector storage (Qdrant) and the LangGraph query pipeline (routing, retrieval, evaluation, generation).
 
 ## Stack
 
 - Python 3.12, gRPC (`grpcio`)
-- LangChain, LangGraph, LangChain Qdrant/Ollama
-- Qdrant client, Ollama client, Tavily (web search)
+- LangChain, LangGraph, LangChain Qdrant
+- Hugging Face transformers + torch (embeddings), Qdrant client, Tavily (web search)
 - Grobid client + grobid2json (PDF parsing)
 
 ## Layout
@@ -49,7 +49,8 @@ or `make ragify-server` from the repo root. Default bind: `0.0.0.0:50051` (`RAGI
 ### Prerequisites
 
 - Qdrant running at `VECTORDB_URL` (default `http://localhost:6333/`)
-- Ollama running with the embedding model (`EMBED_MODEL`, default `qllama/bge-small-en-v1.5:latest`)
+- The embedding model (`EMBED_MODEL_HF`, default `BAAI/bge-small-en-v1.5`) is fetched
+  from Hugging Face on first use and cached; the container image bakes it in
 - Grobid at `:8070` for PDF ingestion
 - An OpenAI-compatible LLM endpoint (`LLM_URL` / `LLM_MODEL` / `LLM_API_KEY`) and, optionally, classification + Tavily keys
 
@@ -61,7 +62,6 @@ All config is read from the root `.env` via `src/core/utils/config.py`.
 sequenceDiagram
     participant API as FastAPI
     participant RAG as rag gRPC server
-    participant OLL as Ollama
     participant QD as Qdrant
     participant GB as Grobid
 
@@ -70,7 +70,7 @@ sequenceDiagram
         RAG->>GB: parse PDF to XML / Markdown
     end
     RAG->>RAG: convert to markdown + chunk
-    RAG->>OLL: embed chunks
+    RAG->>RAG: embed chunks (transformers)
     RAG->>QD: insert points into workspace collection
     RAG-->>API: chunk count
 ```
@@ -81,13 +81,12 @@ sequenceDiagram
 sequenceDiagram
     participant API as FastAPI
     participant RAG as rag gRPC server
-    participant OLL as Ollama
     participant QD as Qdrant
     participant LLM as LLM provider
 
     API->>RAG: RagService.Query (gRPC)
     RAG->>LLM: classify route (index / general / search)
-    RAG->>OLL: embed query
+    RAG->>RAG: embed query (transformers)
     RAG->>QD: retrieve context
     RAG->>LLM: evaluate retrieval / generate answer
     RAG-->>API: answer
@@ -97,8 +96,8 @@ sequenceDiagram
 
 `rag/benchmark/` evaluates retrieval and generation quality on a 45-query
 ground-truth set over ~50 arXiv papers. Run it from `rag/benchmark` (requires
-Qdrant with the `benchmark` collection populated, Ollama for embeddings, and the
-configured LLM for generation + faithfulness judging):
+Qdrant with the `benchmark` collection populated, the embedding model cached
+locally, and the configured LLM for generation + faithfulness judging):
 
 ```bash
 cd rag/benchmark
@@ -135,7 +134,28 @@ Notes:
 
 ## Configuration
 
-Key variables (see repo root `.env.example`): `VECTORDB_URL`, `EMBED_MODEL`, `VECTOR_SIZE`, `MAX_TOKENS`, `OVERLAP`, `LLM_URL`, `LLM_MODEL`, `LLM_API_KEY`, `LLM_STRUCTURED_OUTPUT`, `CLASSIFICATION_URL`, `CLASSIFICATION_MODEL`, `CLASSIFICATION_API_KEY`, `TAVILY_API_KEY`, `RAGIFY_GRPC_HOST`, `RAGIFY_GRPC_PORT`, `RAGIFY_GRPC_MAX_WORKERS`.
+Key variables (see repo root `.env.example`): `VECTORDB_URL`, `EMBED_BACKEND`, `EMBED_MODEL_HF`, `VECTOR_SIZE`, `MAX_TOKENS`, `OVERLAP`, `LLM_URL`, `LLM_MODEL`, `LLM_API_KEY`, `LLM_STRUCTURED_OUTPUT`, `CLASSIFICATION_URL`, `CLASSIFICATION_MODEL`, `CLASSIFICATION_API_KEY`, `TAVILY_API_KEY`, `RAGIFY_GRPC_HOST`, `RAGIFY_GRPC_PORT`, `RAGIFY_GRPC_MAX_WORKERS`.
+
+### Embeddings
+
+Embeddings run **in-process** with `torch` + `transformers`, selected via
+`EMBED_BACKEND` (default `transformers`). Queries are embedded with the BGE
+retrieval instruction prefix; passages are embedded bare.
+
+| Variable | Default | Notes |
+| --- | --- | --- |
+| `EMBED_BACKEND` | `transformers` | `transformers` runs in-process; `ollama` delegates to a local Ollama server and serves a GGUF build instead |
+| `EMBED_MODEL_HF` | `BAAI/bge-small-en-v1.5` | used by the `transformers` backend; must be a Hugging Face repo id |
+| `EMBED_MODEL` | `qllama/bge-small-en-v1.5:latest` | used only by the `ollama` backend |
+
+The model must fit the 512-token window BGE is trained with. Ollama rejects
+over-long input outright while `transformers` truncates silently, so keep
+`MAX_TOKENS` well under 512 for the two backends to behave alike.
+
+Switching backends changes the vectors *and* the chunk boundaries
+(`chunk_processor.semantic_chunk` embeds sentences to pick splits), so existing
+Qdrant collections must be re-ingested; mixing vectors from two backends in one
+collection degrades recall without raising an error.
 
 ## Development
 

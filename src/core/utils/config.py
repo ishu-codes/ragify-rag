@@ -4,6 +4,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Embedding backend: "transformers" (default, runs in-process) or "ollama"
+# (sidecar server serving a GGUF build).
+EMBED_BACKEND = getenv("EMBED_BACKEND", "transformers")
+# transformers backend: the upstream Hugging Face repo.
+EMBED_MODEL_HF = getenv("EMBED_MODEL_HF", "BAAI/bge-small-en-v1.5")
+# ollama backend only: the Ollama repack of the same model.
 EMBED_MODEL = getenv("EMBED_MODEL", "qllama/bge-small-en-v1.5:latest")
 # RERANKER_MODEL = getenv("RERANKER_MODEL", "BAAI/bge-reranker-v2-m3")
 RERANKER_MODEL = getenv("RERANKER_MODEL", "BAAI/bge-reranker-base")
@@ -34,6 +40,12 @@ COLLECTION_NAME = getenv("COLLECTION_NAME", "documents")
 VECTOR_SIZE = int(getenv("VECTOR_SIZE", "384"))
 MAX_TOKENS = int(getenv("MAX_TOKENS", "400"))
 OVERLAP = int(getenv("OVERLAP", "50"))
+
+# Parallelism / batching for the CPU-bound ingest path (semantic chunking and
+# embedding). Chunking a section and embedding a batch are independent of every
+# other one, so both fan out across threads.
+INGEST_WORKERS = max(1, int(getenv("INGEST_WORKERS", "4")))
+EMBED_BATCH_SIZE = max(1, int(getenv("EMBED_BATCH_SIZE", "64")))
 
 # Where Grobid artifacts (pdf / xml / json / chunks) are persisted for
 # debugging, relative to the rag working directory.
