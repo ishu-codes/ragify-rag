@@ -7,7 +7,6 @@ from pathlib import Path
 from typing import Any
 
 from grobid2json import convert_xml_to_json
-from grobid_client.grobid_client import GrobidClient
 from langchain_core.documents import Document
 
 from src.core.ingestion.chunk_processor import process_section
@@ -19,6 +18,8 @@ from src.core.utils.text_quality import is_degenerate
 from src.utils.files import get_file_content
 from src.utils.json import load_json_file, save_to_json
 from src.utils.threads import run_in_threads
+
+from .auth import build_grobid_client
 
 logger = get_logger("ragify.grobid")
 
@@ -33,11 +34,8 @@ class GrobidIngestor:
 
         # _output_dir for xml and json
         self._output_dir = input_dir if output_dir is None else output_dir
-        self._grobid_client = GrobidClient(
-            grobid_server=getenv("GROBID_URL", "http://localhost:8070"),
-            # Don't ping on init: on Cloud Run the Grobid instance may still
-            # be cold-starting when this client is constructed.
-            check_server=False,
+        self._grobid_client = build_grobid_client(
+            getenv("GROBID_URL", "http://localhost:8070")
         )
         # Persisted artifacts (pdf / xml / json / chunks) for debugging, under
         # source/workspace/{workspace_id} in the rag directory.

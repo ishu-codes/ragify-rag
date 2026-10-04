@@ -33,8 +33,8 @@ COPY docker-entrypoint.sh /usr/local/bin/ragify-entrypoint
 RUN chmod +x /usr/local/bin/ragify-entrypoint
 
 ENV RAGIFY_GRPC_HOST=0.0.0.0
-# The gRPC server listens on 50051 by default. Cloud Run ignores EXPOSE and
-# injects $PORT (8080), which the entrypoint honours when present.
-EXPOSE 50051
+# Plain local runs default to 50051; Cloud Run ignores EXPOSE, injects $PORT
+# (8080), and the entrypoint gives PORT precedence.
+EXPOSE 50051 8080
 
 CMD ["ragify-entrypoint"]
